@@ -1,12 +1,12 @@
 {
-  "name": "cheffhat",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+	"name": "cheffhat",
+	"version": "1.0.0",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"check": "pnpm biome format && pnpm biome lint",
+		"tidy": "pnpm biome format --write && pnpm biome lint --write"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "1.8.3"
+	}
 }
