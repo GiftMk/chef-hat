@@ -2,6 +2,7 @@
 	"name": "chef-hat",
 	"version": "1.0.0",
 	"type": "module",
+	"private": "true",
 	"scripts": {
 		"check": "pnpm biome format && pnpm biome lint",
 		"tidy": "pnpm biome format --write && pnpm biome lint --write"
