@@ -1,0 +1,23 @@
+{
+	"name": "video-maker",
+	"version": "1.0.0",
+	"type": "module",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"local": "tsx local-runner/index.ts"
+	},
+	"dependencies": {
+		"fluent-ffmpeg": "^2.1.3"
+	},
+	"devDependencies": {
+		"@inquirer/prompts": "^5.5.0",
+		"@types/figlet": "^1.5.8",
+		"@types/fluent-ffmpeg": "^2.1.26",
+		"@types/uuid": "^10.0.0",
+		"figlet": "^1.7.0",
+		"ora": "^8.1.0",
+		"tsx": "^4.19.0",
+		"typescript": "^5.5.4",
+		"uuid": "^10.0.0"
+	}
+}
