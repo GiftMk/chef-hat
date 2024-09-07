@@ -3,5 +3,8 @@
 	"version": "1.0.0",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"dependencies": {
+		"fluent-ffmpeg": "^2.1.3"
 	}
 }
