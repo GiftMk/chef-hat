@@ -10,6 +10,7 @@
 		"fluent-ffmpeg": "^2.1.3"
 	},
 	"devDependencies": {
+		"@chef-hat/typescript-config": "workspace:*",
 		"@inquirer/prompts": "^5.5.0",
 		"@types/figlet": "^1.5.8",
 		"@types/fluent-ffmpeg": "^2.1.26",
