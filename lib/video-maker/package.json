@@ -1,5 +1,5 @@
 {
-	"name": "video-maker",
+	"name": "@chef-hat/video-maker",
 	"version": "1.0.0",
 	"type": "module",
 	"private": true,

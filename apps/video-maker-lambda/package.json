@@ -1,0 +1,13 @@
+{
+	"name": "@chef-hat/video-maker-lambda",
+	"version": "1.0.0",
+	"type": "module",
+	"private": true,
+	"scripts": {
+		"local": "tsx local-runner/index.ts"
+	},
+	"devDependencies": {
+		"@chef-hat/typescript-config": "workspace:*",
+		"typescript": "^5.5.4"
+	}
+}
