@@ -1,12 +1,12 @@
 import { makeVideo } from '@chef-hat/video-maker'
-import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3'
-import type { Context, S3Event } from 'aws-lambda'
+import { S3Client } from '@aws-sdk/client-s3'
+import type { S3Event } from 'aws-lambda'
 import { getZipStream } from './getZipStream'
-import { Maybe, MaybeAsync, Result } from 'typescript-functional-extensions'
+import { Maybe, Result } from 'typescript-functional-extensions'
 import { unzipStream } from './unzipStream'
 import { uploadVideo } from './uploadVideo'
+import { v4 as uuidv4 } from 'uuid'
 
-//TODO: move the region to an environment variable
 const s3 = new S3Client({ region: 'ap-southeast-2' })
 
 export const handler = async (event: S3Event): Promise<void> => {
@@ -14,16 +14,15 @@ export const handler = async (event: S3Event): Promise<void> => {
 		const bucketName = record.s3.bucket.name
 		const key = record.s3.object.key
 		const zipStream = await getZipStream({ s3, bucketName, key })
-		//TODO: create a shared constant for the output directory
-		const outputPath = 'output/video.mp4'
+		const videoPath = `${uuidv4()}.mp4`
 
 		zipStream
-			.bind((stream) => unzipStream(stream))
+			.bindAsync((stream) => unzipStream(stream))
 			.map(async ({ audioPath, imagePath }) => {
 				const { errors } = await makeVideo({
 					audioPath,
 					imagePath,
-					outputPath,
+					outputPath: videoPath,
 				})
 
 				if (errors.length) {
@@ -34,7 +33,7 @@ export const handler = async (event: S3Event): Promise<void> => {
 
 				return Result.success()
 			})
-			.tap(async () => await uploadVideo(s3, outputPath))
+			.tap(async () => await uploadVideo({ s3, bucketName, videoPath }))
 			.tapFailure(console.error)
 	})
 }

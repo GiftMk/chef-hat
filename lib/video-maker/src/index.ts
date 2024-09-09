@@ -1,4 +1,5 @@
 import ffmpeg from 'fluent-ffmpeg'
+import fs from 'node:fs'
 
 type VideoRequest = {
 	audioPath: string
@@ -16,6 +17,7 @@ export const makeVideo = async ({
 	outputPath,
 }: VideoRequest): Promise<VideoResponse> => {
 	const errors: string[] = []
+	const outStream = fs.createWriteStream(outputPath)
 
 	try {
 		await new Promise<void>((resolve, reject) => {
@@ -43,7 +45,7 @@ export const makeVideo = async ({
 					errors.push(message)
 					reject()
 				})
-				.save(outputPath)
+				.stream(outStream)
 		})
 	} catch (e) {
 		if (e instanceof Error) {

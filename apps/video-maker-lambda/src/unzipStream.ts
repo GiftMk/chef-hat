@@ -9,8 +9,9 @@ type UnzipStreamResponse = {
 	imagePath: string
 }
 
-//TODO: this needs testing
-export const unzipStream = (stream: Readable): Result<UnzipStreamResponse> => {
+export const unzipStream = async (
+	stream: Readable,
+): Promise<Result<UnzipStreamResponse>> => {
 	let audioPath: string | null = null
 	let imagePath: string | null = null
 
@@ -20,13 +21,13 @@ export const unzipStream = (stream: Readable): Result<UnzipStreamResponse> => {
 			const filename = path.parse(filePath).name
 
 			if (filename === 'img') {
-				imagePath = `images/${filename}`
+				imagePath = filePath
 				entry.pipe(fs.createWriteStream(imagePath))
 				return
 			}
 
 			if (filename === 'audio') {
-				audioPath = `audio/${filename}`
+				audioPath = filePath
 				entry.pipe(fs.createWriteStream(audioPath))
 				return
 			}
@@ -34,6 +35,8 @@ export const unzipStream = (stream: Readable): Result<UnzipStreamResponse> => {
 
 		entry.autodrain()
 	})
+
+	await new Promise((resolve) => stream.on('close', resolve))
 
 	if (audioPath && imagePath) {
 		return Result.success({ audioPath, imagePath })

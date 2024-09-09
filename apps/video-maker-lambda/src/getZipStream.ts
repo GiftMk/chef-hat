@@ -8,7 +8,6 @@ type GetZipStreamRequest = {
 	key: string
 }
 
-//TODO: this needs testing
 export const getZipStream = async ({
 	s3,
 	bucketName,
