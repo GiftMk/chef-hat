@@ -30,6 +30,8 @@ export const makeVideo = async ({
 				.videoCodec('libx264')
 				.outputOption('-pix_fmt', 'yuv420p')
 				.outputOption('-shortest')
+				.outputFormat('mp4')
+				.outputOption('-movflags frag_keyframe+empty_moov')
 				.on('start', (c) =>
 					console.log(`Started making video using command: ${c}`),
 				)
@@ -45,7 +47,56 @@ export const makeVideo = async ({
 					errors.push(message)
 					reject()
 				})
-				.stream(outStream)
+				.pipe(outStream, { end: true })
+		})
+	} catch (e) {
+		if (e instanceof Error) {
+			errors.push(e.message)
+		} else {
+			errors.push('An unknown error occurred')
+		}
+	}
+
+	return { errors }
+}
+
+export const makeVideoViaStream = async ({
+	audioPath,
+	imagePath,
+	outputPath,
+}: VideoRequest): Promise<VideoResponse> => {
+	const errors: string[] = []
+	const outStream = fs.createWriteStream(outputPath)
+
+	try {
+		await new Promise<void>((resolve, reject) => {
+			ffmpeg()
+				.input(imagePath)
+				.loop()
+				.input(audioPath)
+				.audioCodec('aac')
+				.audioBitrate(320)
+				.videoCodec('libx264')
+				.outputOption('-pix_fmt', 'yuv420p')
+				.outputOption('-shortest')
+				.outputFormat('mp4')
+				.outputOption('-movflags frag_keyframe+empty_moov')
+				.on('start', (c) =>
+					console.log(`Started making video using command: ${c}`),
+				)
+				.on('end', () => {
+					console.log('Finished making video')
+					resolve()
+				})
+				.on('progress', ({ timemark }) =>
+					console.log(`Current timestamp: ${timemark}`),
+				)
+				.on('error', ({ message }) => {
+					console.error(message)
+					errors.push(message)
+					reject()
+				})
+				.pipe(outStream, { end: true })
 		})
 	} catch (e) {
 		if (e instanceof Error) {

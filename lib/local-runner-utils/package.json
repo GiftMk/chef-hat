@@ -6,6 +6,7 @@
 	"main": "src/index.ts",
 	"scripts": {},
 	"devDependencies": {
+		"figlet": "^1.7.0",
 		"@chef-hat/typescript-config": "workspace:*",
 		"@inquirer/prompts": "^5.5.0",
 		"typescript": "^5.5.4"
