@@ -20,7 +20,7 @@
 		"uuid": "^10.0.0"
 	},
 	"devDependencies": {
-		"@chef-hat/typescript-config": "workspace:*",
+		"@chef-hat/ts-config": "workspace:*",
 		"@types/unzip-stream": "^0.3.4",
 		"@types/uuid": "^10.0.0",
 		"esbuild": "^0.23.1",

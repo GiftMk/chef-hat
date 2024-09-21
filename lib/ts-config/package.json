@@ -1,5 +1,5 @@
 {
-	"name": "@chef-hat/typescript-config",
+	"name": "@chef-hat/ts-config",
 	"version": "1.0.0",
 	"private": "true",
 	"main": "."

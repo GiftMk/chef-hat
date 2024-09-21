@@ -21,7 +21,7 @@
 	"devDependencies": {
 		"@types/fluent-ffmpeg": "^2.1.26",
 		"@chef-hat/local-runner-utils": "workspace:*",
-		"@chef-hat/typescript-config": "workspace:*",
+		"@chef-hat/ts-config": "workspace:*",
 		"@chef-hat/ts-result": "workspace:*",
 		"@types/uuid": "^10.0.0",
 		"esbuild": "^0.23.1",

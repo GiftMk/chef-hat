@@ -12,7 +12,7 @@
 	},
 	"devDependencies": {
 		"@chef-hat/local-runner-utils": "workspace:*",
-		"@chef-hat/typescript-config": "workspace:*",
+		"@chef-hat/ts-config": "workspace:*",
 		"@inquirer/prompts": "^5.5.0",
 		"@types/figlet": "^1.5.8",
 		"@types/fluent-ffmpeg": "^2.1.26",

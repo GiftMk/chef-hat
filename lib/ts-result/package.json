@@ -6,7 +6,7 @@
 	"main": "src/index.ts",
 	"scripts": {},
 	"devDependencies": {
-		"@chef-hat/typescript-config": "workspace:*",
+		"@chef-hat/ts-config": "workspace:*",
 		"typescript": "^5.5.4"
 	}
 }
