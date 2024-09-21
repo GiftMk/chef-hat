@@ -1,3 +1,3 @@
 export * from './getFiles'
 export * from './selectFile'
-export * from './showIntroText'
+export * from './introText'
