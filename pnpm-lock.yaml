@@ -70,6 +70,9 @@ importers:
       '@chef-hat/local-runner-utils':
         specifier: workspace:*
         version: link:../../lib/local-runner-utils
+      '@chef-hat/ts-result':
+        specifier: workspace:*
+        version: link:../../lib/ts-result
       '@chef-hat/typescript-config':
         specifier: workspace:*
         version: link:../../lib/typescript-config
@@ -146,6 +149,15 @@ importers:
       figlet:
         specifier: ^1.7.0
         version: 1.7.0
+      typescript:
+        specifier: ^5.5.4
+        version: 5.5.4
+
+  lib/ts-result:
+    devDependencies:
+      '@chef-hat/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
       typescript:
         specifier: ^5.5.4
         version: 5.5.4
