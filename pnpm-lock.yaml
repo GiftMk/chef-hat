@@ -63,9 +63,6 @@ importers:
       fluent-ffmpeg:
         specifier: ^2.1.3
         version: 2.1.3
-      uuid:
-        specifier: ^10.0.0
-        version: 10.0.0
     devDependencies:
       '@chef-hat/local-runner-utils':
         specifier: workspace:*
