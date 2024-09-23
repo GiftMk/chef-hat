@@ -1,10 +1,9 @@
 import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3'
 import type { ClientContext } from 'aws-lambda'
-import { Readable } from 'node:stream'
 import { resizeImage } from './resizeImage'
 import { SixteenByNine } from './AspectRatio'
 import { isFailure } from '@chef-hat/ts-result'
-import { uploadToS3 } from '@chef-hat/s3-utils'
+import { uploadToS3, writeBodyToFile } from '@chef-hat/s3-utils'
 import fs from 'node:fs'
 
 const s3Client = new S3Client({ region: process.env.AWS_REGION })
@@ -17,16 +16,15 @@ export const handler = async (context: ClientContext) => {
 	const response = await s3Client.send(
 		new GetObjectCommand({ Bucket: imageBucket, Key: imageKey }),
 	)
-
-	const imageStream = response.Body
-	if (!(imageStream instanceof Readable)) {
-		console.error('Response body is not a readable stream')
+	const imagePath = `/temp/${imageKey}-raw`
+	const writeBodyResult = await writeBodyToFile(response.Body, imagePath)
+	if (isFailure(writeBodyResult)) {
+		console.error(writeBodyResult.error)
 		return
 	}
-	const imageBuffer = Buffer.concat(await imageStream.toArray())
-	const outputPath = `/temp/${imageKey}`
 
-	const resizeResult = await resizeImage(imageBuffer, SixteenByNine, outputPath)
+	const outputPath = `/temp/${imageKey}`
+	const resizeResult = await resizeImage(imagePath, SixteenByNine, outputPath)
 	if (isFailure(resizeResult)) {
 		console.error(resizeResult.error)
 		return

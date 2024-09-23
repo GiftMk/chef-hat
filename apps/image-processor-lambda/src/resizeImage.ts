@@ -4,16 +4,13 @@ import sharp from 'sharp'
 import fs from 'node:fs'
 
 export const resizeImage = async (
-	imageBuffer: Buffer,
+	imagePath: string,
 	aspectRatio: AspectRatio,
 	outputPath: string,
 ): Promise<Result> => {
 	const { width, height } = aspectRatio
 	const outputStream = fs.createWriteStream(outputPath)
-	sharp(imageBuffer)
-		.resize(width, height)
-		.png()
-		.pipe(outputStream, { end: true })
+	sharp(imagePath).resize(width, height).png().pipe(outputStream, { end: true })
 
 	return await new Promise<Result>((resolve, reject) => {
 		outputStream.on('close', () => resolve(emptySuccess()))
