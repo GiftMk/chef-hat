@@ -8,8 +8,9 @@ import { normaliseAudio } from './normalisation/normaliseAudio'
 const s3Client = new S3Client({ region: process.env.AWS_REGION })
 
 export const handler = async (context: ClientContext) => {
+	console.log(context)
 	const audioBucket = context.Custom.bucket
-	const audioKey = context.Custom.imageKey
+	const audioKey = context.Custom.audioKey
 	const outputBucket = context.Custom.outputBucket
 
 	const response = await s3Client.send(
