@@ -1,5 +1,9 @@
-import { selectFile, introText } from '@chef-hat/local-runner-utils'
-import { INPUTS_DIRECTORY, OUTPUTS_DIRECTORY } from './constants'
+import {
+	selectFile,
+	introText,
+	INPUTS_DIRECTORY,
+	OUTPUTS_DIRECTORY,
+} from '@chef-hat/local-runner-utils'
 import { resizeImage } from '../src/resizeImage'
 import path from 'node:path'
 import ora from 'ora'
