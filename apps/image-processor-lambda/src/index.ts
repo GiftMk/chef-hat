@@ -5,6 +5,7 @@ import { SixteenByNine } from './AspectRatio'
 import { isFailure } from '@chef-hat/ts-result'
 import { uploadToS3, writeBodyToFile } from '@chef-hat/s3-utils'
 import fs from 'node:fs'
+import { logger } from './logger'
 
 const s3Client = new S3Client({ region: process.env.AWS_REGION })
 
@@ -19,14 +20,14 @@ export const handler = async (context: ClientContext) => {
 	const imagePath = `/temp/${imageKey}-raw`
 	const writeBodyResult = await writeBodyToFile(response.Body, imagePath)
 	if (isFailure(writeBodyResult)) {
-		console.error(writeBodyResult.error)
+		logger.error(writeBodyResult.error)
 		return
 	}
 
 	const outputPath = `/temp/${imageKey}`
 	const resizeResult = await resizeImage(imagePath, SixteenByNine, outputPath)
 	if (isFailure(resizeResult)) {
-		console.error(resizeResult.error)
+		logger.error(resizeResult.error)
 		return
 	}
 
@@ -39,6 +40,6 @@ export const handler = async (context: ClientContext) => {
 	})
 
 	if (isFailure(uploadResult)) {
-		console.error(uploadResult.error)
+		logger.error(uploadResult.error)
 	}
 }

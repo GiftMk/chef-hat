@@ -78,6 +78,9 @@ importers:
       '@types/aws-lambda':
         specifier: ^8.10.145
         version: 8.10.145
+      adze:
+        specifier: ^2.0.12
+        version: 2.0.12
       aws-lambda:
         specifier: ^1.0.7
         version: 1.0.7
