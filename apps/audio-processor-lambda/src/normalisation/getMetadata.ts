@@ -11,6 +11,8 @@ import { LoudnormJsonExtractor } from './loudnormJsonExtractor'
 import { getMetadataFromJson } from './getMetadataFromJson'
 import type { NormalisationSettings } from './NormalisationSettings'
 import { getInputOptions } from './getInputOptions'
+import adze from 'adze'
+import { logger } from '../logger'
 
 export const getMetadata = async (
 	audioPath: string,
@@ -29,7 +31,9 @@ export const getMetadata = async (
 			.audioQuality(320)
 			.format('null')
 			.on('start', (command) =>
-				console.log(`Started normalising audio with command ${command}`),
+				logger
+					.namespace('getMetadata')
+					.info(`Started normalising audio with command ${command}`),
 			)
 			.on('stderr', (line) => loudnormJsonExtractor.consume(line))
 			.on('end', () => resolve(emptySuccess()))

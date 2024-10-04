@@ -9,6 +9,8 @@ import {
 import { getMetadata } from './getMetadata'
 import type { NormalisationSettings } from './NormalisationSettings'
 import { getInputOptions } from './getInputOptions'
+import adze from 'adze'
+import { logger } from '../logger'
 
 const defaultSettings: Readonly<NormalisationSettings> = {
 	integrated: -16,
@@ -46,7 +48,9 @@ export const normaliseAudio = async (
 			])
 			.audioQuality(320)
 			.on('start', (command) =>
-				console.log(`Started normalising audio with command ${command}`),
+				logger
+					.namespace('normaliseAudio')
+					.info(`Started normalising audio with command ${command}`),
 			)
 			.on('end', () => resolve(emptySuccess()))
 			.on('error', (e) => reject(failure(e.message)))

@@ -4,6 +4,7 @@ import { isFailure } from '@chef-hat/ts-result'
 import { uploadToS3, writeBodyToFile } from '@chef-hat/s3-utils'
 import fs from 'node:fs'
 import { normaliseAudio } from './normalisation/normaliseAudio'
+import { logger } from './logger'
 
 const s3Client = new S3Client({ region: process.env.AWS_REGION })
 
@@ -16,18 +17,16 @@ export const handler = async (context: ClientContext) => {
 		new GetObjectCommand({ Bucket: audioBucket, Key: audioKey }),
 	)
 	const audioPath = `/temp/${audioKey}-raw`
-
 	const writeBodyResult = await writeBodyToFile(response.Body, audioPath)
 	if (isFailure(writeBodyResult)) {
-		console.error(writeBodyResult.error)
+		logger.error(writeBodyResult.error)
 		return
 	}
 
 	const outputPath = `/temp/${audioKey}`
-
 	const normaliseResult = await normaliseAudio(audioPath, outputPath)
 	if (isFailure(normaliseResult)) {
-		console.error(normaliseResult.error)
+		logger.error(normaliseResult.error)
 		return
 	}
 
@@ -40,6 +39,6 @@ export const handler = async (context: ClientContext) => {
 	})
 
 	if (isFailure(uploadResult)) {
-		console.error(uploadResult.error)
+		logger.error(uploadResult.error)
 	}
 }
