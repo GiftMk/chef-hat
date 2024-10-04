@@ -167,6 +167,9 @@ importers:
       '@inquirer/prompts':
         specifier: ^5.5.0
         version: 5.5.0
+      '@types/figlet':
+        specifier: ^1.5.8
+        version: 1.5.8
       figlet:
         specifier: ^1.7.0
         version: 1.7.0
