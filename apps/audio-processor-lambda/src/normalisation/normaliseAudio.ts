@@ -10,10 +10,16 @@ import { getMetadata } from './getMetadata'
 import type { NormalisationSettings } from './NormalisationSettings'
 import { getInputOptions } from './getInputOptions'
 
+const defaultSettings: Readonly<NormalisationSettings> = {
+	integrated: -16,
+	truePeak: -1.5,
+	loudnessRange: 11,
+}
+
 export const normaliseAudio = async (
 	audioPath: string,
 	outputPath: string,
-	settings: NormalisationSettings,
+	settings: NormalisationSettings = defaultSettings,
 ): Promise<Result> => {
 	const metadataResult = await getMetadata(audioPath, settings)
 	if (isFailure(metadataResult)) {

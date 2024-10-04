@@ -4,7 +4,6 @@ import { normaliseAudio } from '../src/normalisation/normaliseAudio'
 import path from 'node:path'
 import { isFailure, isSuccess } from '@chef-hat/ts-result'
 import ora from 'ora'
-import type { NormalisationSettings } from '../src/normalisation/NormalisationSettings'
 
 introText('Audio Processor')
 
@@ -18,12 +17,7 @@ const outputPath = path.join(
 )
 
 const spinner = ora().start()
-const settings: NormalisationSettings = {
-	integrated: -16,
-	truePeak: -1.5,
-	loudnessRange: 11,
-}
-const result = await normaliseAudio(audioPath, outputPath, settings)
+const result = await normaliseAudio(audioPath, outputPath)
 
 if (isSuccess(result)) {
 	spinner.succeed()
