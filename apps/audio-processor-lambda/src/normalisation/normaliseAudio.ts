@@ -7,12 +7,15 @@ import {
 	isFailure,
 } from '@chef-hat/ts-result'
 import { getMetadata } from './getMetadata'
+import type { NormalisationSettings } from './NormalisationSettings'
+import { getInputOptions } from './getInputOptions'
 
 export const normaliseAudio = async (
 	audioPath: string,
 	outputPath: string,
+	settings: NormalisationSettings,
 ): Promise<Result> => {
-	const metadataResult = await getMetadata(audioPath)
+	const metadataResult = await getMetadata(audioPath, settings)
 	if (isFailure(metadataResult)) {
 		return metadataResult
 	}
@@ -24,9 +27,7 @@ export const normaliseAudio = async (
 				{
 					filter: 'loudnorm',
 					options: [
-						'I=-16',
-						'TP=-1.5',
-						'LRA=11',
+						...getInputOptions(settings),
 						'print_format=json',
 						`measured_I=${metadata.inputIntegrated}`,
 						`measured_LRA=${metadata.inputLoudnessRange}`,

@@ -9,9 +9,12 @@ import {
 } from '@chef-hat/ts-result'
 import { LoudnormJsonExtractor } from './loudnormJsonExtractor'
 import { getMetadataFromJson } from './getMetadataFromJson'
+import type { NormalisationSettings } from './NormalisationSettings'
+import { getInputOptions } from './getInputOptions'
 
 export const getMetadata = async (
 	audioPath: string,
+	settings: NormalisationSettings,
 ): Promise<Result<LoudnormMetadata>> => {
 	const loudnormJsonExtractor = new LoudnormJsonExtractor()
 
@@ -20,7 +23,7 @@ export const getMetadata = async (
 			.audioFilters([
 				{
 					filter: 'loudnorm',
-					options: ['I=-16', 'TP=-1.5', 'LRA=11', 'print_format=json'],
+					options: [...getInputOptions(settings), 'print_format=json'],
 				},
 			])
 			.audioQuality(320)
