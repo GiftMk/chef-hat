@@ -11,7 +11,9 @@ const s3Client = new S3Client({ region: process.env.AWS_REGION })
 
 export const handler = async (context: ClientContext) => {
 	const imageBucket = context.Custom.bucket
-	const imageKey = context.Custom.imageKey
+	const imageKey = decodeURIComponent(
+		context.Custom.imageKey.replace(/\+/g, ' '),
+	)
 	const outputBucket = context.Custom.outputBucket
 
 	const response = await s3Client.send(
