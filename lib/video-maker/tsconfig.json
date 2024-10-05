@@ -1,3 +1,0 @@
-{
-	"extends": "@chef-hat/ts-config/node.json"
-}
