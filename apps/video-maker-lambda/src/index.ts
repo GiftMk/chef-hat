@@ -14,6 +14,7 @@ const MEDIA_CONVERT_QUEUE = process.env.MEDIA_CONVERT_QUEUE
 const MEDIA_CONVERT_ROLE = process.env.MEDIA_CONVERT_ROLE
 
 export const handler = async (context: ClientContext): Promise<void> => {
+	logger.info(context.Custom)
 	if (!MEDIA_CONVERT_QUEUE) {
 		logger.error('Could not retrieve media convert queue from environment')
 		return
