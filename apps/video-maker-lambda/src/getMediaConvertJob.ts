@@ -1,9 +1,12 @@
 import type { CreateJobCommandInput } from '@aws-sdk/client-mediaconvert'
+import type { MediaConvertInputs } from './MediaConvertInputs'
 
-export const mediaConvertJob: CreateJobCommandInput = {
-	Queue: 'arn:aws:mediaconvert:ap-southeast-2:319715224908:queues/Default',
+export const getMediaConvertJob = (
+	inputs: MediaConvertInputs,
+): CreateJobCommandInput => ({
+	Queue: inputs.queue,
 	UserMetadata: {},
-	Role: 'arn:aws:iam::319715224908:role/service-role/MediaConvert_Admin_Role',
+	Role: inputs.role,
 	Settings: {
 		TimecodeConfig: {
 			Source: 'ZEROBASED',
@@ -18,8 +21,8 @@ export const mediaConvertJob: CreateJobCommandInput = {
 							Mp4Settings: {},
 						},
 						VideoDescription: {
-							Width: 1920,
-							Height: 1080,
+							Width: inputs.videoDimensions.width,
+							Height: inputs.videoDimensions.height,
 							VideoPreprocessors: {
 								ImageInserter: {
 									InsertableImages: [
@@ -27,8 +30,7 @@ export const mediaConvertJob: CreateJobCommandInput = {
 											ImageX: 0,
 											ImageY: 0,
 											Layer: 1,
-											ImageInserterInput:
-												's3://cheff-hatmedia-convert-test/Inspo.png',
+											ImageInserterInput: inputs.imageS3Path,
 											Opacity: 100,
 										},
 									],
@@ -68,7 +70,7 @@ export const mediaConvertJob: CreateJobCommandInput = {
 				OutputGroupSettings: {
 					Type: 'FILE_GROUP_SETTINGS',
 					FileGroupSettings: {
-						Destination: 's3://cheff-hat-video-maker-outputs/',
+						Destination: inputs.outputS3Path,
 					},
 				},
 			},
@@ -82,7 +84,7 @@ export const mediaConvertJob: CreateJobCommandInput = {
 					},
 				},
 				TimecodeSource: 'ZEROBASED',
-				FileInput: 's3://cheff-hat-video-maker-inputs/lagoon.wav',
+				FileInput: inputs.audioS3Path,
 			},
 		],
 	},
@@ -92,4 +94,4 @@ export const mediaConvertJob: CreateJobCommandInput = {
 	},
 	StatusUpdateInterval: 'SECONDS_60',
 	Priority: 0,
-}
+})
