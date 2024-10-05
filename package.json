@@ -5,7 +5,8 @@
 	"private": "true",
 	"scripts": {
 		"check": "pnpm biome format && pnpm biome lint",
-		"tidy": "pnpm biome format --write && pnpm biome lint --write"
+		"tidy": "pnpm biome format --write && pnpm biome lint --write",
+		"build": "pnpm run --recursive --if-present build"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.8.3"
