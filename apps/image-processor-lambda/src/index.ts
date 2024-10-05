@@ -1,7 +1,7 @@
 import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3'
 import type { ClientContext } from 'aws-lambda'
 import { resizeImage } from './resizeImage'
-import { SixteenByNine } from './AspectRatio'
+import { SixteenByNine } from './dimensions/AspectRatio'
 import { isFailure } from '@chef-hat/ts-result'
 import { uploadToS3, writeBodyToFile } from '@chef-hat/s3-utils'
 import fs from 'node:fs'
@@ -17,14 +17,14 @@ export const handler = async (context: ClientContext) => {
 	const response = await s3Client.send(
 		new GetObjectCommand({ Bucket: imageBucket, Key: imageKey }),
 	)
-	const imagePath = `/temp/${imageKey}-raw`
+	const imagePath = `/tmp/${imageKey}-raw`
 	const writeBodyResult = await writeBodyToFile(response.Body, imagePath)
 	if (isFailure(writeBodyResult)) {
 		logger.error(writeBodyResult.error)
 		return
 	}
 
-	const outputPath = `/temp/${imageKey}`
+	const outputPath = `/tmp/${imageKey}`
 	const resizeResult = await resizeImage(imagePath, SixteenByNine, outputPath)
 	if (isFailure(resizeResult)) {
 		logger.error(resizeResult.error)

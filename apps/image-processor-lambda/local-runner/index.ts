@@ -7,7 +7,7 @@ import {
 import { resizeImage } from '../src/resizeImage'
 import path from 'node:path'
 import ora from 'ora'
-import { SixteenByNine } from '../src/AspectRatio'
+import { SixteenByNine } from '../src/dimensions/AspectRatio'
 import { isSuccess } from '@chef-hat/ts-result'
 
 introText('Image Processor')
