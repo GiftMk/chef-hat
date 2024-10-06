@@ -14,11 +14,11 @@ import {
 import { logger } from './logger'
 
 export const resizeImage = async (
-	imagePath: string,
+	inputPath: string,
 	aspectRatio: AspectRatio,
 	outputPath: string,
 ): Promise<Result> => {
-	const dimensionsResult = await getDimensions(imagePath)
+	const dimensionsResult = await getDimensions(inputPath)
 	if (isFailure(dimensionsResult)) return dimensionsResult
 
 	const dimensions = getValueOrThrow(dimensionsResult)
@@ -33,7 +33,7 @@ export const resizeImage = async (
 	try {
 		return await new Promise<Result>((resolve, reject) => {
 			ffmpeg()
-				.input(imagePath)
+				.input(inputPath)
 				.videoFilters([crop(croppedDimensions), scale({ ...aspectRatio })])
 				.on('start', (command) =>
 					logger.info(`Started resizing image with command ${command}`),
