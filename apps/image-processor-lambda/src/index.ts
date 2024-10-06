@@ -20,7 +20,7 @@ export const handler = async (context: ClientContext) => {
 	const response = await s3Client.send(
 		new GetObjectCommand({ Bucket: imageBucket, Key: imageKey }),
 	)
-	const imagePath = `/tmp/${imageKey}-raw`
+	const imagePath = `/tmp/raw-${imageKey}`
 	const writeBodyResult = await writeBodyToFile(response.Body, imagePath)
 	if (isFailure(writeBodyResult)) {
 		logger.error(writeBodyResult.error)
