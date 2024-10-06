@@ -6,6 +6,7 @@ import { isFailure } from '@chef-hat/ts-result'
 import { uploadToS3, writeBodyToFile } from '@chef-hat/s3-utils'
 import fs from 'node:fs'
 import { logger } from './logger'
+import path from 'node:path'
 
 const s3Client = new S3Client({ region: process.env.AWS_REGION })
 
@@ -26,7 +27,8 @@ export const handler = async (context: ClientContext) => {
 		return
 	}
 
-	const outputPath = `/tmp/${imageKey}`
+	const imageName = path.parse(imageKey).name
+	const outputPath = `/tmp/${imageName}.png`
 	const resizeResult = await resizeImage(imagePath, SixteenByNine, outputPath)
 	if (isFailure(resizeResult)) {
 		logger.error(resizeResult.error)
