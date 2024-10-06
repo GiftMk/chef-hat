@@ -1,5 +1,5 @@
 {
-	"name": "@chef-hat/s3-utils",
+	"name": "@chef-hat/aws-utils",
 	"version": "1.0.0",
 	"type": "module",
 	"private": true,
