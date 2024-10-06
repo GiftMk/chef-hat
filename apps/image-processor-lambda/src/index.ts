@@ -27,8 +27,8 @@ export const handler = async (context: ClientContext) => {
 		return
 	}
 
-	const imageName = path.parse(imageKey).name
-	const outputPath = `/tmp/${imageName}.png`
+	const outputKey = `${path.parse(imageKey).name}.png`
+	const outputPath = `/tmp/${outputKey}`
 	const resizeResult = await resizeImage(imagePath, SixteenByNine, outputPath)
 	if (isFailure(resizeResult)) {
 		logger.error(resizeResult.error)
@@ -39,7 +39,7 @@ export const handler = async (context: ClientContext) => {
 	const uploadResult = await uploadToS3({
 		s3Client,
 		bucket: outputBucket,
-		key: imageKey,
+		key: outputKey,
 		body,
 	})
 
