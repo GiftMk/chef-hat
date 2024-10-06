@@ -9,7 +9,6 @@ import {
 import { getMetadata } from './getMetadata'
 import type { NormalisationSettings } from './NormalisationSettings'
 import { getInputOptions } from './getInputOptions'
-import adze from 'adze'
 import { logger } from '../logger'
 
 const defaultSettings: Readonly<NormalisationSettings> = {
@@ -19,18 +18,18 @@ const defaultSettings: Readonly<NormalisationSettings> = {
 }
 
 export const normaliseAudio = async (
-	audioPath: string,
+	inputPath: string,
 	outputPath: string,
 	settings: NormalisationSettings = defaultSettings,
 ): Promise<Result> => {
-	const metadataResult = await getMetadata(audioPath, settings)
+	const metadataResult = await getMetadata(inputPath, settings)
 	if (isFailure(metadataResult)) {
 		return metadataResult
 	}
 	const metadata = getValueOrThrow(metadataResult)
 
 	return await new Promise<Result>((resolve, reject) =>
-		ffmpeg(audioPath)
+		ffmpeg(inputPath)
 			.audioFilters([
 				{
 					filter: 'loudnorm',

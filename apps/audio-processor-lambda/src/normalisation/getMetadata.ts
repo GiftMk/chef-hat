@@ -11,17 +11,16 @@ import { LoudnormJsonExtractor } from './loudnormJsonExtractor'
 import { getMetadataFromJson } from './getMetadataFromJson'
 import type { NormalisationSettings } from './NormalisationSettings'
 import { getInputOptions } from './getInputOptions'
-import adze from 'adze'
 import { logger } from '../logger'
 
 export const getMetadata = async (
-	audioPath: string,
+	inputPath: string,
 	settings: NormalisationSettings,
 ): Promise<Result<LoudnormMetadata>> => {
 	const loudnormJsonExtractor = new LoudnormJsonExtractor()
 
 	const result = await new Promise<Result>((resolve, reject) => {
-		ffmpeg(audioPath)
+		ffmpeg(inputPath)
 			.audioFilters([
 				{
 					filter: 'loudnorm',
