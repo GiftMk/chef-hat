@@ -2,7 +2,12 @@ import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3'
 import { resizeImage } from './resizeImage'
 import { SixteenByNine } from './dimensions/AspectRatio'
 import { isFailure } from '@chef-hat/ts-result'
-import { uploadToS3, writeBodyToFile, toAWSFilePath } from '@chef-hat/aws-utils'
+import {
+	uploadToS3,
+	writeBodyToFile,
+	toAWSFilePath,
+	decodeS3Key,
+} from '@chef-hat/aws-utils'
 import fs from 'node:fs'
 import { logger } from './logger'
 import path from 'node:path'
@@ -28,14 +33,14 @@ export const handler = async (
 	state: InputState,
 ): Promise<OutputState | Error> => {
 	const inputBucket = state.inputBucket
-	const inputKey = decodeURIComponent(state.inputKey.replace(/\+/g, ' '))
+	const inputKey = decodeS3Key(state.inputKey)
 	const outputBucket = state.outputBucket
 
 	const response = await s3Client.send(
 		new GetObjectCommand({ Bucket: inputBucket, Key: inputKey }),
 	)
-	const imagePath = toAWSFilePath(`raw-${inputKey}`)
-	const writeBodyResult = await writeBodyToFile(response.Body, imagePath)
+	const inputPath = toAWSFilePath(`raw-${inputKey}`)
+	const writeBodyResult = await writeBodyToFile(response.Body, inputPath)
 	if (isFailure(writeBodyResult)) {
 		logger.error(writeBodyResult.error)
 		return writeBodyResult
@@ -43,7 +48,7 @@ export const handler = async (
 
 	const outputKey = `${path.parse(inputKey).name}.png`
 	const outputPath = toAWSFilePath(outputKey)
-	const resizeResult = await resizeImage(imagePath, SixteenByNine, outputPath)
+	const resizeResult = await resizeImage(inputPath, SixteenByNine, outputPath)
 	if (isFailure(resizeResult)) {
 		logger.error(resizeResult.error)
 		return resizeResult

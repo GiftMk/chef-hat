@@ -1,6 +1,11 @@
 import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3'
 import { isFailure } from '@chef-hat/ts-result'
-import { uploadToS3, writeBodyToFile, toAWSFilePath } from '@chef-hat/aws-utils'
+import {
+	uploadToS3,
+	writeBodyToFile,
+	toAWSFilePath,
+	decodeS3Key,
+} from '@chef-hat/aws-utils'
 import fs from 'node:fs'
 import { normaliseAudio } from './normalisation/normaliseAudio'
 import { logger } from './logger'
@@ -27,7 +32,7 @@ export const handler = async (
 	state: InputState,
 ): Promise<OutputState | Error> => {
 	const inputBucket = state.inputBucket
-	const inputKey = decodeURIComponent(state.inputKey.replace(/\+/g, ' '))
+	const inputKey = decodeS3Key(state.inputKey)
 	const outputBucket = state.outputBucket
 
 	const response = await s3Client.send(
