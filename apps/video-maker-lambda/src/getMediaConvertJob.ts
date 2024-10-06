@@ -1,12 +1,14 @@
 import type { CreateJobCommandInput } from '@aws-sdk/client-mediaconvert'
-import type { MediaConvertInputs } from './MediaConvertInputs'
+import type { MediaConvertConfig } from './MediaConvertConfig'
+import type { InputState } from './InputState'
 
 export const getMediaConvertJob = (
-	inputs: MediaConvertInputs,
+	config: MediaConvertConfig,
+	state: InputState,
 ): CreateJobCommandInput => ({
-	Queue: inputs.queue,
+	Queue: config.queue,
 	UserMetadata: {},
-	Role: inputs.role,
+	Role: config.role,
 	Settings: {
 		TimecodeConfig: {
 			Source: 'ZEROBASED',
@@ -21,8 +23,8 @@ export const getMediaConvertJob = (
 							Mp4Settings: {},
 						},
 						VideoDescription: {
-							Width: inputs.videoDimensions.width,
-							Height: inputs.videoDimensions.height,
+							Width: state.video.width,
+							Height: state.video.height,
 							VideoPreprocessors: {
 								ImageInserter: {
 									InsertableImages: [
@@ -30,7 +32,7 @@ export const getMediaConvertJob = (
 											ImageX: 0,
 											ImageY: 0,
 											Layer: 1,
-											ImageInserterInput: inputs.imageS3Path,
+											ImageInserterInput: `${state.image.bucket}/${state.image.key}`,
 											Opacity: 100,
 										},
 									],
@@ -70,7 +72,7 @@ export const getMediaConvertJob = (
 				OutputGroupSettings: {
 					Type: 'FILE_GROUP_SETTINGS',
 					FileGroupSettings: {
-						Destination: inputs.outputS3Path,
+						Destination: state.outputBucket,
 					},
 				},
 			},
@@ -84,7 +86,7 @@ export const getMediaConvertJob = (
 					},
 				},
 				TimecodeSource: 'ZEROBASED',
-				FileInput: inputs.audioS3Path,
+				FileInput: `${state.audio.bucket}/${state.audio.key}`,
 			},
 		],
 	},

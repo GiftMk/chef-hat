@@ -2,10 +2,10 @@ import {
 	CreateJobCommand,
 	MediaConvertClient,
 } from '@aws-sdk/client-mediaconvert'
-import type { ClientContext } from 'aws-lambda'
 import { getMediaConvertJob } from './getMediaConvertJob'
 import { logger } from './logger'
-import { getInputs } from './getInputs'
+import type { InputState } from './InputState'
+import type { MediaConvertConfig } from './MediaConvertConfig'
 
 const mediaConvertClient = new MediaConvertClient({
 	endpoint: process.env.MEDIA_CONVERT_ENDPOINT,
@@ -13,27 +13,47 @@ const mediaConvertClient = new MediaConvertClient({
 const MEDIA_CONVERT_QUEUE = process.env.MEDIA_CONVERT_QUEUE
 const MEDIA_CONVERT_ROLE = process.env.MEDIA_CONVERT_ROLE
 
-export const handler = async (context: ClientContext): Promise<void> => {
+type OutputState = {
+	bucket: string
+	key: string
+}
+
+type Error = {
+	error: string
+}
+
+export const handler = async (
+	state: InputState,
+): Promise<OutputState | Error> => {
 	if (!MEDIA_CONVERT_QUEUE) {
-		logger.error('Could not retrieve media convert queue from environment')
-		return
+		const error = 'Could not retrieve media convert queue from environment'
+		logger.error(error)
+		return { error }
 	}
 
 	if (!MEDIA_CONVERT_ROLE) {
-		logger.error('Could not retrieve media convert role from environment')
-		return
+		const error = 'Could not retrieve media convert role from environment'
+		logger.error(error)
+		return { error }
+	}
+
+	const config: MediaConvertConfig = {
+		queue: MEDIA_CONVERT_QUEUE,
+		role: MEDIA_CONVERT_ROLE,
 	}
 
 	try {
-		const inputs = getInputs(MEDIA_CONVERT_QUEUE, MEDIA_CONVERT_ROLE, context)
 		await mediaConvertClient.send(
-			new CreateJobCommand(getMediaConvertJob(inputs)),
+			new CreateJobCommand(getMediaConvertJob(config, state)),
 		)
 	} catch (e) {
-		if (e instanceof Error) {
-			logger.error(e.message)
-		} else {
-			logger.error('An unknown error occurred when creating media convert job')
-		}
+		const error =
+			e instanceof Error
+				? e.message
+				: 'An unknown error occurred when creating media convert job'
+		logger.error(error)
+		return { error }
 	}
+
+	return { bucket: state.outputBucket, key: state.video.name }
 }

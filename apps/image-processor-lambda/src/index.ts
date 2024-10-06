@@ -14,15 +14,15 @@ import path from 'node:path'
 
 const s3Client = new S3Client({ region: process.env.AWS_REGION })
 
-type InputState = {
+export type InputState = {
 	inputBucket: string
 	inputKey: string
 	outputBucket: string
 }
 
-type OutputState = {
-	outputBucket: string
-	outputKey: string
+type ObjectContext = {
+	bucket: string
+	key: string
 }
 
 type Error = {
@@ -31,7 +31,7 @@ type Error = {
 
 export const handler = async (
 	state: InputState,
-): Promise<OutputState | Error> => {
+): Promise<ObjectContext | Error> => {
 	const inputBucket = state.inputBucket
 	const inputKey = decodeS3Key(state.inputKey)
 	const outputBucket = state.outputBucket
@@ -67,5 +67,5 @@ export const handler = async (
 		return uploadResult
 	}
 
-	return { outputBucket, outputKey }
+	return { bucket: outputBucket, key: outputKey }
 }
