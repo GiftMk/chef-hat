@@ -23,6 +23,9 @@ importers:
       '@chef-hat/aws-utils':
         specifier: workspace:*
         version: link:../../lib/aws-utils
+      '@chef-hat/step-functions':
+        specifier: workspace:*
+        version: link:../../lib/step-functions
       '@chef-hat/ts-result':
         specifier: workspace:*
         version: link:../../lib/ts-result
@@ -69,6 +72,12 @@ importers:
       '@chef-hat/aws-utils':
         specifier: workspace:*
         version: link:../../lib/aws-utils
+      '@chef-hat/step-functions':
+        specifier: workspace:*
+        version: link:../../lib/step-functions
+      '@chef-hat/ts-result':
+        specifier: workspace:*
+        version: link:../../lib/ts-result
       adze:
         specifier: ^2.0.12
         version: 2.0.12
@@ -82,9 +91,6 @@ importers:
       '@chef-hat/ts-config':
         specifier: workspace:*
         version: link:../../lib/ts-config
-      '@chef-hat/ts-result':
-        specifier: workspace:*
-        version: link:../../lib/ts-result
       '@types/fluent-ffmpeg':
         specifier: ^2.1.26
         version: 2.1.26
@@ -109,6 +115,9 @@ importers:
       '@aws-sdk/client-mediaconvert':
         specifier: ^3.665.0
         version: 3.665.0
+      '@chef-hat/step-functions':
+        specifier: workspace:*
+        version: link:../../lib/step-functions
       adze:
         specifier: ^2.0.12
         version: 2.0.12

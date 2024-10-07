@@ -14,13 +14,14 @@
 		"@aws-sdk/client-s3": "^3.645.0",
 		"@aws-sdk/lib-storage": "^3.645.0",
 		"@chef-hat/aws-utils": "workspace:*",
+		"@chef-hat/step-functions": "workspace:*",
+		"@chef-hat/ts-result": "workspace:*",
 		"adze": "^2.0.12",
 		"fluent-ffmpeg": "^2.1.3"
 	},
 	"devDependencies": {
 		"@chef-hat/local-runner-utils": "workspace:*",
 		"@chef-hat/ts-config": "workspace:*",
-		"@chef-hat/ts-result": "workspace:*",
 		"@types/fluent-ffmpeg": "^2.1.26",
 		"@types/uuid": "^10.0.0",
 		"esbuild": "^0.23.1",

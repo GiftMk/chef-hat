@@ -6,6 +6,7 @@ import { getMediaConvertJob } from './getMediaConvertJob'
 import { logger } from './logger'
 import type { InputState } from './InputState'
 import type { MediaConvertConfig } from './MediaConvertConfig'
+import type { S3ObjectState, ErrorState } from '@chef-hat/step-functions'
 
 const mediaConvertClient = new MediaConvertClient({
 	endpoint: process.env.MEDIA_CONVERT_ENDPOINT,
@@ -13,18 +14,9 @@ const mediaConvertClient = new MediaConvertClient({
 const MEDIA_CONVERT_QUEUE = process.env.MEDIA_CONVERT_QUEUE
 const MEDIA_CONVERT_ROLE = process.env.MEDIA_CONVERT_ROLE
 
-type OutputState = {
-	bucket: string
-	key: string
-}
-
-type Error = {
-	error: string
-}
-
 export const handler = async (
 	state: InputState,
-): Promise<OutputState | Error> => {
+): Promise<S3ObjectState | ErrorState> => {
 	if (!MEDIA_CONVERT_QUEUE) {
 		const error = 'Could not retrieve media convert queue from environment'
 		logger.error(error)

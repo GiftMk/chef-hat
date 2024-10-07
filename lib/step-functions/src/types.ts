@@ -1,12 +1,8 @@
-export type InputState = {
-	inputBucket: string
-	inputKey: string
-	outputBucket: string
+export type S3ObjectState = {
+	bucket: string
+	key: string
 }
 
-type OutputState =
-	| {
-			outputBucket: string
-			outputKey: string
-	  }
-	| { error: string }
+export type ErrorState = {
+	error: string
+}

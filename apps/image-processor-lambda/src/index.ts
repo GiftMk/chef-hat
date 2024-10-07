@@ -11,6 +11,7 @@ import {
 import fs from 'node:fs'
 import { logger } from './logger'
 import path from 'node:path'
+import type { S3ObjectState, ErrorState } from '@chef-hat/step-functions'
 
 const s3Client = new S3Client({ region: process.env.AWS_REGION })
 
@@ -20,18 +21,9 @@ export type InputState = {
 	outputBucket: string
 }
 
-type ObjectContext = {
-	bucket: string
-	key: string
-}
-
-type Error = {
-	error: string
-}
-
 export const handler = async (
 	state: InputState,
-): Promise<ObjectContext | Error> => {
+): Promise<S3ObjectState | ErrorState> => {
 	const inputBucket = state.inputBucket
 	const inputKey = decodeS3Key(state.inputKey)
 	const outputBucket = state.outputBucket

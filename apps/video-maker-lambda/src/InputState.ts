@@ -1,7 +1,4 @@
-type ObjectContext = {
-	bucket: string
-	key: string
-}
+import type { S3ObjectState } from '@chef-hat/step-functions'
 
 type VideoSettings = {
 	name: string
@@ -10,8 +7,8 @@ type VideoSettings = {
 }
 
 export type InputState = {
-	image: ObjectContext
-	audio: ObjectContext
+	image: S3ObjectState
+	audio: S3ObjectState
 	video: VideoSettings
 	outputBucket: string
 }
