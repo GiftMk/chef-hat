@@ -35,8 +35,8 @@ export const getMediaConvertJob = (
 											ImageY: 0,
 											Layer: 1,
 											ImageInserterInput: toS3Path(
-												state.image.bucket,
-												state.image.key,
+												state.resources.image.bucket,
+												state.resources.image.key,
 											),
 											Opacity: 100,
 										},
@@ -77,7 +77,7 @@ export const getMediaConvertJob = (
 				OutputGroupSettings: {
 					Type: 'FILE_GROUP_SETTINGS',
 					FileGroupSettings: {
-						Destination: toS3Path(state.outputBucket, state.video.name),
+						Destination: toS3Path(state.video.bucket, state.video.key),
 					},
 				},
 			},
@@ -91,7 +91,10 @@ export const getMediaConvertJob = (
 					},
 				},
 				TimecodeSource: 'ZEROBASED',
-				FileInput: toS3Path(state.audio.bucket, state.audio.key),
+				FileInput: toS3Path(
+					state.resources.audio.bucket,
+					state.resources.audio.key,
+				),
 			},
 		],
 	},
