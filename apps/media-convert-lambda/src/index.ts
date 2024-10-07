@@ -11,8 +11,6 @@ const MEDIA_CONVERT_ROLE = process.env.MEDIA_CONVERT_ROLE
 export const handler = async (
 	state: InputState,
 ): Promise<CreateJobCommandInput | ErrorState> => {
-	logger.info(state)
-
 	if (!MEDIA_CONVERT_QUEUE) {
 		const error = 'Could not retrieve media convert queue from environment'
 		logger.error(error)
