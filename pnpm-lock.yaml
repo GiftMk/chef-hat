@@ -41,7 +41,7 @@ importers:
     devDependencies:
       '@chef-hat/local-runner':
         specifier: workspace:*
-        version: link:../../lib/local-runner-utils
+        version: link:../../lib/local-runner
       '@chef-hat/ts-config':
         specifier: workspace:*
         version: link:../../lib/ts-config
@@ -93,7 +93,7 @@ importers:
     devDependencies:
       '@chef-hat/local-runner':
         specifier: workspace:*
-        version: link:../../lib/local-runner-utils
+        version: link:../../lib/local-runner
       '@chef-hat/ts-config':
         specifier: workspace:*
         version: link:../../lib/ts-config
@@ -157,7 +157,7 @@ importers:
         specifier: ^5.5.4
         version: 5.5.4
 
-  lib/local-runner-utils:
+  lib/local-runner:
     devDependencies:
       '@chef-hat/ts-config':
         specifier: workspace:*
