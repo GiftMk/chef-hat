@@ -20,9 +20,9 @@ importers:
       '@aws-sdk/lib-storage':
         specifier: ^3.645.0
         version: 3.645.0(@aws-sdk/client-s3@3.645.0)
-      '@chef-hat/aws-utils':
+      '@chef-hat/s3-utils':
         specifier: workspace:*
-        version: link:../../lib/aws-utils
+        version: link:../../lib/s3-utils
       '@chef-hat/step-functions':
         specifier: workspace:*
         version: link:../../lib/step-functions
@@ -69,9 +69,9 @@ importers:
       '@aws-sdk/lib-storage':
         specifier: ^3.645.0
         version: 3.645.0(@aws-sdk/client-s3@3.645.0)
-      '@chef-hat/aws-utils':
+      '@chef-hat/s3-utils':
         specifier: workspace:*
-        version: link:../../lib/aws-utils
+        version: link:../../lib/s3-utils
       '@chef-hat/step-functions':
         specifier: workspace:*
         version: link:../../lib/step-functions
@@ -132,25 +132,6 @@ importers:
         specifier: ^5.5.4
         version: 5.5.4
 
-  lib/aws-utils:
-    dependencies:
-      '@aws-sdk/client-s3':
-        specifier: ^3.645.0
-        version: 3.645.0
-      '@aws-sdk/lib-storage':
-        specifier: ^3.645.0
-        version: 3.645.0(@aws-sdk/client-s3@3.645.0)
-      '@chef-hat/ts-result':
-        specifier: workspace:*
-        version: link:../ts-result
-    devDependencies:
-      '@chef-hat/ts-config':
-        specifier: workspace:*
-        version: link:../ts-config
-      typescript:
-        specifier: ^5.5.4
-        version: 5.5.4
-
   lib/local-runner-utils:
     devDependencies:
       '@chef-hat/ts-config':
@@ -165,6 +146,25 @@ importers:
       figlet:
         specifier: ^1.7.0
         version: 1.7.0
+      typescript:
+        specifier: ^5.5.4
+        version: 5.5.4
+
+  lib/s3-utils:
+    dependencies:
+      '@aws-sdk/client-s3':
+        specifier: ^3.645.0
+        version: 3.645.0
+      '@aws-sdk/lib-storage':
+        specifier: ^3.645.0
+        version: 3.645.0(@aws-sdk/client-s3@3.645.0)
+      '@chef-hat/ts-result':
+        specifier: workspace:*
+        version: link:../ts-result
+    devDependencies:
+      '@chef-hat/ts-config':
+        specifier: workspace:*
+        version: link:../ts-config
       typescript:
         specifier: ^5.5.4
         version: 5.5.4

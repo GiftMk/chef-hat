@@ -5,7 +5,7 @@ import {
 	writeBodyToFile,
 	toLambdaFilePath,
 	decodeS3Key,
-} from '@chef-hat/aws-utils'
+} from '@chef-hat/s3-utils'
 import fs from 'node:fs'
 import { normaliseAudio } from './normalisation/normaliseAudio'
 import { logger } from './logger'
