@@ -3,7 +3,7 @@ import { isFailure } from '@chef-hat/ts-result'
 import {
 	uploadToS3,
 	writeBodyToFile,
-	toAWSFilePath,
+	toLambdaFilePath,
 	decodeS3Key,
 } from '@chef-hat/aws-utils'
 import fs from 'node:fs'
@@ -38,14 +38,14 @@ export const handler = async (
 	const response = await s3Client.send(
 		new GetObjectCommand({ Bucket: inputBucket, Key: inputKey }),
 	)
-	const inputPath = toAWSFilePath(`raw-${inputKey}`)
+	const inputPath = toLambdaFilePath(`raw-${inputKey}`)
 	const writeBodyResult = await writeBodyToFile(response.Body, inputPath)
 	if (isFailure(writeBodyResult)) {
 		logger.error(writeBodyResult.error)
 		return writeBodyResult
 	}
 
-	const outputPath = toAWSFilePath(inputKey)
+	const outputPath = toLambdaFilePath(inputKey)
 	const normaliseResult = await normaliseAudio(inputPath, outputPath)
 	if (isFailure(normaliseResult)) {
 		logger.error(normaliseResult.error)
