@@ -3,7 +3,7 @@ import {
 	selectFile,
 	INPUTS_DIRECTORY,
 	OUTPUTS_DIRECTORY,
-} from '@chef-hat/local-runner-utils'
+} from '@chef-hat/local-runner'
 import { normaliseAudio } from '../src/normalisation/normaliseAudio'
 import path from 'node:path'
 import { isFailure, isSuccess } from '@chef-hat/ts-result'
