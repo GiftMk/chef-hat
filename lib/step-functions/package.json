@@ -4,14 +4,8 @@
 	"type": "module",
 	"private": true,
 	"main": "src/index.ts",
-	"scripts": {},
 	"devDependencies": {
 		"@chef-hat/ts-config": "workspace:*",
 		"typescript": "^5.5.4"
-	},
-	"dependencies": {
-		"@chef-hat/ts-result": "workspace:*",
-		"@aws-sdk/client-s3": "^3.645.0",
-		"@aws-sdk/lib-storage": "^3.645.0"
 	}
 }

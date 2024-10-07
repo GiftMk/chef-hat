@@ -170,16 +170,6 @@ importers:
         version: 5.5.4
 
   lib/step-functions:
-    dependencies:
-      '@aws-sdk/client-s3':
-        specifier: ^3.645.0
-        version: 3.645.0
-      '@aws-sdk/lib-storage':
-        specifier: ^3.645.0
-        version: 3.645.0(@aws-sdk/client-s3@3.645.0)
-      '@chef-hat/ts-result':
-        specifier: workspace:*
-        version: link:../ts-result
     devDependencies:
       '@chef-hat/ts-config':
         specifier: workspace:*
