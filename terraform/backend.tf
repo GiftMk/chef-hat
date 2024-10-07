@@ -5,9 +5,4 @@ terraform {
       version = "~> 5.0"
     }
   }
-  backend "s3" {
-    bucket = "cheff-hat-terraform-state"
-    key    = "terraform.tfstate"
-    region = "ap-southeast-2"
-  }
 }
