@@ -20,6 +20,9 @@ importers:
       '@aws-sdk/lib-storage':
         specifier: ^3.645.0
         version: 3.645.0(@aws-sdk/client-s3@3.645.0)
+      '@chef-hat/lambda':
+        specifier: workspace:*
+        version: link:../../lib/lambda
       '@chef-hat/s3':
         specifier: workspace:*
         version: link:../../lib/s3
@@ -69,6 +72,9 @@ importers:
       '@aws-sdk/lib-storage':
         specifier: ^3.645.0
         version: 3.645.0(@aws-sdk/client-s3@3.645.0)
+      '@chef-hat/lambda':
+        specifier: workspace:*
+        version: link:../../lib/lambda
       '@chef-hat/s3':
         specifier: workspace:*
         version: link:../../lib/s3

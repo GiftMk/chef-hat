@@ -2,12 +2,8 @@ import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3'
 import { resizeImage } from './resizeImage'
 import { SixteenByNine } from './dimensions/AspectRatio'
 import { isFailure } from '@chef-hat/ts-result'
-import {
-	uploadToS3,
-	writeBodyToFile,
-	toLambdaFilePath,
-	decodeS3Key,
-} from '@chef-hat/s3'
+import { uploadToS3, writeBodyToFile, decodeS3Key } from '@chef-hat/s3'
+import { toLambdaFilePath } from '@chef-hat/lambda'
 import fs from 'node:fs'
 import { logger } from './logger'
 import path from 'node:path'

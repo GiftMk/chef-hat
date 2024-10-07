@@ -1,16 +1,12 @@
 import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3'
 import { isFailure } from '@chef-hat/ts-result'
-import {
-	uploadToS3,
-	writeBodyToFile,
-	toLambdaFilePath,
-	decodeS3Key,
-} from '@chef-hat/s3'
+import { uploadToS3, writeBodyToFile, decodeS3Key } from '@chef-hat/s3'
 import fs from 'node:fs'
 import { normaliseAudio } from './normalisation/normaliseAudio'
 import { logger } from './logger'
 import path from 'node:path'
 import type { ErrorState, S3ObjectState } from '@chef-hat/step-functions'
+import { toLambdaFilePath } from '@chef-hat/lambda'
 
 const s3Client = new S3Client({ region: process.env.AWS_REGION })
 
