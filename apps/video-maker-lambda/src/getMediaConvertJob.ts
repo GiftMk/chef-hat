@@ -1,8 +1,7 @@
 import type { CreateJobCommandInput } from '@aws-sdk/client-mediaconvert'
 import type { MediaConvertConfig } from './MediaConvertConfig'
 import type { InputState } from './InputState'
-
-const toS3Path = (bucket: string, key: string) => `${bucket}/${key}`
+import { toS3Path } from '@chef-hat/s3'
 
 export const getMediaConvertJob = (
 	config: MediaConvertConfig,

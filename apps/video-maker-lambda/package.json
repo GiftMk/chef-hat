@@ -12,6 +12,7 @@
 	"dependencies": {
 		"@aws-sdk/client-mediaconvert": "^3.665.0",
 		"@chef-hat/step-functions": "workspace:*",
+		"@chef-hat/s3": "workspace:*",
 		"adze": "^2.0.12"
 	},
 	"devDependencies": {

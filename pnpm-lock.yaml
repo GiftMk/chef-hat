@@ -121,6 +121,9 @@ importers:
       '@aws-sdk/client-mediaconvert':
         specifier: ^3.665.0
         version: 3.665.0
+      '@chef-hat/s3':
+        specifier: workspace:*
+        version: link:../../lib/s3
       '@chef-hat/step-functions':
         specifier: workspace:*
         version: link:../../lib/step-functions
