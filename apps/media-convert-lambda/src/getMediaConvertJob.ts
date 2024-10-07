@@ -76,7 +76,7 @@ export const getMediaConvertJob = (
 				OutputGroupSettings: {
 					Type: 'FILE_GROUP_SETTINGS',
 					FileGroupSettings: {
-						Destination: toS3Path(state.video.bucket, state.video.key),
+						Destination: toS3Path(state.video.outputBucket, state.video.name),
 					},
 				},
 			},

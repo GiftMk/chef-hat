@@ -1,8 +1,10 @@
 import type { S3ObjectState } from '@chef-hat/step-functions'
 
-type VideoSettings = {
+type VideoState = {
 	width: number
 	height: number
+	name: string
+	outputBucket: string
 }
 
 export type InputState = {
@@ -10,5 +12,5 @@ export type InputState = {
 		image: S3ObjectState
 		audio: S3ObjectState
 	}
-	video: VideoSettings & S3ObjectState
+	video: VideoState
 }
