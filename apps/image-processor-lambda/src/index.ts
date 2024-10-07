@@ -7,7 +7,7 @@ import {
 	writeBodyToFile,
 	toLambdaFilePath,
 	decodeS3Key,
-} from '@chef-hat/s3-utils'
+} from '@chef-hat/s3'
 import fs from 'node:fs'
 import { logger } from './logger'
 import path from 'node:path'

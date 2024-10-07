@@ -20,9 +20,9 @@ importers:
       '@aws-sdk/lib-storage':
         specifier: ^3.645.0
         version: 3.645.0(@aws-sdk/client-s3@3.645.0)
-      '@chef-hat/s3-utils':
+      '@chef-hat/s3':
         specifier: workspace:*
-        version: link:../../lib/s3-utils
+        version: link:../../lib/s3
       '@chef-hat/step-functions':
         specifier: workspace:*
         version: link:../../lib/step-functions
@@ -69,9 +69,9 @@ importers:
       '@aws-sdk/lib-storage':
         specifier: ^3.645.0
         version: 3.645.0(@aws-sdk/client-s3@3.645.0)
-      '@chef-hat/s3-utils':
+      '@chef-hat/s3':
         specifier: workspace:*
-        version: link:../../lib/s3-utils
+        version: link:../../lib/s3
       '@chef-hat/step-functions':
         specifier: workspace:*
         version: link:../../lib/step-functions
@@ -150,7 +150,7 @@ importers:
         specifier: ^5.5.4
         version: 5.5.4
 
-  lib/s3-utils:
+  lib/s3:
     dependencies:
       '@aws-sdk/client-s3':
         specifier: ^3.645.0
