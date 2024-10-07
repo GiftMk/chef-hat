@@ -2,6 +2,8 @@ import type { CreateJobCommandInput } from '@aws-sdk/client-mediaconvert'
 import type { MediaConvertConfig } from './MediaConvertConfig'
 import type { InputState } from './InputState'
 
+const toS3Path = (bucket: string, key: string) => `${bucket}/${key}`
+
 export const getMediaConvertJob = (
 	config: MediaConvertConfig,
 	state: InputState,
@@ -32,7 +34,10 @@ export const getMediaConvertJob = (
 											ImageX: 0,
 											ImageY: 0,
 											Layer: 1,
-											ImageInserterInput: `${state.image.bucket}/${state.image.key}`,
+											ImageInserterInput: toS3Path(
+												state.image.bucket,
+												state.image.key,
+											),
 											Opacity: 100,
 										},
 									],
@@ -72,7 +77,7 @@ export const getMediaConvertJob = (
 				OutputGroupSettings: {
 					Type: 'FILE_GROUP_SETTINGS',
 					FileGroupSettings: {
-						Destination: state.outputBucket,
+						Destination: toS3Path(state.outputBucket, state.video.name),
 					},
 				},
 			},
@@ -86,7 +91,7 @@ export const getMediaConvertJob = (
 					},
 				},
 				TimecodeSource: 'ZEROBASED',
-				FileInput: `${state.audio.bucket}/${state.audio.key}`,
+				FileInput: toS3Path(state.audio.bucket, state.audio.key),
 			},
 		],
 	},
