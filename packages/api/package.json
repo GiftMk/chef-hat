@@ -1,0 +1,32 @@
+{
+	"name": "@chef-hat/api",
+	"version": "1.0.0",
+	"type": "module",
+	"private": true,
+	"main": "src/index.ts",
+	"scripts": {
+		"prebuild": "rm -rf dist",
+		"build": "esbuild src/index.ts --bundle --minify --sourcemap --platform=node --target=esnext --outfile=dist/index.js",
+		"postbuild": "cd dist && zip -r index.zip index.js*",
+		"start": "tsx src/index.ts",
+		"generate": "graphql-codegen"
+	},
+	"dependencies": {
+		"@apollo/server": "^4.11.0",
+		"@aws-sdk/client-s3": "^3.679.0",
+		"@aws-sdk/s3-request-presigner": "^3.679.0",
+		"adze": "^2.0.12",
+		"graphql": "^16.9.0",
+		"tsx": "^4.19.0",
+		"uuid": "^11.0.1"
+	},
+	"devDependencies": {
+		"@chef-hat/ts-config": "workspace:*",
+		"@graphql-codegen/cli": "^5.0.3",
+		"@graphql-codegen/typescript": "^4.1.0",
+		"@graphql-codegen/typescript-resolvers": "^4.3.0",
+		"@types/node": "^20",
+		"esbuild": "^0.23.1",
+		"typescript": "^5.5.4"
+	}
+}
