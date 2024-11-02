@@ -1,5 +1,5 @@
 {
-	"name": "@chef-hat/audio-processor-lambda",
+	"name": "@chef-hat/image-processor",
 	"version": "1.0.0",
 	"type": "module",
 	"private": true,
@@ -15,8 +15,8 @@
 		"@aws-sdk/lib-storage": "^3.645.0",
 		"@chef-hat/s3": "workspace:*",
 		"@chef-hat/lambda": "workspace:*",
-		"@chef-hat/ts-result": "workspace:*",
 		"@chef-hat/step-functions": "workspace:*",
+		"@chef-hat/ts-result": "workspace:*",
 		"adze": "^2.0.12",
 		"fluent-ffmpeg": "^2.1.3"
 	},
