@@ -84,11 +84,11 @@ export const AssetsForm = ({ className }: AssetsFormProps) => {
 				/>
 				<Button
 					variant={'cta'}
-					className={cn('rounded-full w-20 h-20 text-2xl')}
+					className={cn('rounded-full w-20 h-20 text-xl font-semibold')}
 					disabled={isLoading}
 					type="submit"
 				>
-					{isLoading ? 'Loading...' : 'Go!'}
+					{isLoading ? '...' : 'Go!'}
 				</Button>
 			</form>
 		</Form>

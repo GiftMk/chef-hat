@@ -28,8 +28,8 @@ export const ImagePreview = ({ imageUrl }: ImagePreviewProps) => {
 							className="object-cover object-top rounded-md"
 							src={imageUrl}
 							alt="preview-of-uploaded-image"
-							width={208}
-							height={208}
+							width={128}
+							height={128}
 						/>
 					</div>
 				</DialogTrigger>
