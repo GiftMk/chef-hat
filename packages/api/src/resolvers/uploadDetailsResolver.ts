@@ -4,8 +4,8 @@ import type {
 } from '../generated/graphql'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 import { PutObjectCommand, type S3Client } from '@aws-sdk/client-s3'
-import type { ServerContext } from '../server'
-import { v4 as uuidv4 } from 'uuid'
+import type { ServerContext } from '../serverContext'
+import { randomUUID } from 'node:crypto'
 
 const getUploadUrl = async (
 	s3Client: S3Client,
@@ -17,7 +17,7 @@ const getUploadUrl = async (
 		Key: key,
 	})
 	return await getSignedUrl(s3Client, command, {
-		expiresIn: 60,
+		expiresIn: 60 * 15,
 	})
 }
 
@@ -26,14 +26,13 @@ export const uploadDetailsResolver = async (
 	args: QueryUploadDetailsArgs,
 	contextValue: ServerContext,
 ): Promise<UploadDetails> => {
-	const uploadKey = uuidv4()
-	const audioFilename = `${uploadKey}/audio.${args.input.audioExtension}`
+	const audioFilename = `${randomUUID()}.${args.input.audioExtension}`
 	const audioUploadUrl = await getUploadUrl(
 		contextValue.s3Client,
 		contextValue.uploadBucket,
 		audioFilename,
 	)
-	const imageFilename = `${uploadKey}/image.${args.input.imageExtension}`
+	const imageFilename = `${randomUUID()}.${args.input.imageExtension}`
 	const imageUploadUrl = await getUploadUrl(
 		contextValue.s3Client,
 		contextValue.uploadBucket,
@@ -43,7 +42,6 @@ export const uploadDetailsResolver = async (
 	return {
 		audioUploadUrl,
 		imageUploadUrl,
-		uploadKey,
 		audioFilename,
 		imageFilename,
 	}

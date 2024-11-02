@@ -1,7 +1,6 @@
 type UploadDetails {
   audioUploadUrl: String!
   imageUploadUrl: String!
-  uploadKey: String!
   audioFilename: String!
   imageFilename: String!
 }
@@ -13,4 +12,17 @@ input UploadDetailsInput {
 
 type Query {
   uploadDetails(input: UploadDetailsInput!): UploadDetails!
+}
+
+input CreateVideoInput {
+  audioFilename: String!
+  imageFilename: String!
+}
+
+type CreateVideoResponse {
+  downloadUrl: String!
+}
+
+type Mutation {
+  createVideo(input: CreateVideoInput!): CreateVideoResponse
 }

@@ -14,11 +14,11 @@
 	"dependencies": {
 		"@apollo/server": "^4.11.0",
 		"@aws-sdk/client-s3": "^3.679.0",
+		"@aws-sdk/client-sfn": "^3.682.0",
 		"@aws-sdk/s3-request-presigner": "^3.679.0",
 		"adze": "^2.0.12",
 		"graphql": "^16.9.0",
-		"tsx": "^4.19.0",
-		"uuid": "^11.0.1"
+		"tsx": "^4.19.0"
 	},
 	"devDependencies": {
 		"@chef-hat/ts-config": "workspace:*",
