@@ -5,6 +5,7 @@ import type { UploadDetailsQuery } from '../graphql/generated/graphql'
 import { uploadDetailsQuery } from '../graphql/queries/uploadDetailsQuery'
 import path from 'node:path'
 import type { ApolloClient, NormalizedCacheObject } from '@apollo/client'
+import type { ServerActionResult } from './ServerActionResult'
 
 type UploadAssetsProps = {
 	audio: FileList
@@ -40,10 +41,10 @@ const getUploadDetails = async (
 	return data
 }
 
-type UploadAssetsResult = {
-	success: boolean
-	message?: string
-}
+type UploadAssetsResult = ServerActionResult<{
+	audioFilename: string
+	imageFilename: string
+}>
 
 export const uploadAssets = async ({
 	audio,
@@ -57,17 +58,13 @@ export const uploadAssets = async ({
 		await getUploadDetails(client, audioFile, imageFile)
 	).uploadDetails
 
-	const audioUpload = await uploadFile(audioUploadUrl, audioFilename, audioFile)
+	const uploadAudio = uploadFile(audioUploadUrl, audioFilename, audioFile)
+	const uploadImage = uploadFile(imageUploadUrl, imageFilename, imageFile)
+	const results = await Promise.all([uploadAudio, uploadImage])
+	const uploadFailed = results.some((r) => !r.ok)
 
-	if (!audioUpload.ok) {
-		return { success: false, message: 'Failed to upload audio' }
+	if (uploadFailed) {
+		return { success: false, message: 'Failed to upload assets.' }
 	}
-
-	const imageUpload = await uploadFile(imageUploadUrl, imageFilename, imageFile)
-
-	if (!imageUpload.ok) {
-		return { success: false, message: 'Failed to upload image' }
-	}
-
-	return { success: true }
+	return { success: true, audioFilename, imageFilename }
 }

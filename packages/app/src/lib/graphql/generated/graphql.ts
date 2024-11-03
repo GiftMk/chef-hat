@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
+import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -26,6 +26,19 @@ export type UploadDetailsInput = {
   imageExtension: Scalars['String']['input'];
 };
 
+export enum VideoStatus {
+  Complete = 'COMPLETE',
+  Failed = 'FAILED',
+  InProgress = 'IN_PROGRESS'
+}
+
+export type CreateVideoMutationVariables = Exact<{
+  input: CreateVideoInput;
+}>;
+
+
+export type CreateVideoMutation = { __typename?: 'Mutation', createVideo?: { __typename?: 'CreateVideoResponse', downloadUrl: string, trackingId: string } | null };
+
 export type UploadDetailsQueryVariables = Exact<{
   input: UploadDetailsInput;
 }>;
@@ -34,4 +47,5 @@ export type UploadDetailsQueryVariables = Exact<{
 export type UploadDetailsQuery = { __typename?: 'Query', uploadDetails: { __typename?: 'UploadDetails', audioFilename: string, audioUploadUrl: string, imageFilename: string, imageUploadUrl: string } };
 
 
+export const CreateVideoDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateVideo"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateVideoInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createVideo"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"downloadUrl"}},{"kind":"Field","name":{"kind":"Name","value":"trackingId"}}]}}]}}]} as unknown as DocumentNode<CreateVideoMutation, CreateVideoMutationVariables>;
 export const UploadDetailsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"UploadDetails"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UploadDetailsInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"uploadDetails"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"audioFilename"}},{"kind":"Field","name":{"kind":"Name","value":"audioUploadUrl"}},{"kind":"Field","name":{"kind":"Name","value":"imageFilename"}},{"kind":"Field","name":{"kind":"Name","value":"imageUploadUrl"}}]}}]}}]} as unknown as DocumentNode<UploadDetailsQuery, UploadDetailsQueryVariables>;

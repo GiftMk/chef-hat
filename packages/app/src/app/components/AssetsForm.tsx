@@ -47,7 +47,6 @@ export const AssetsForm = ({ className }: AssetsFormProps) => {
 			audio: values.audio,
 			image: values.image,
 		})
-		console.log(response)
 	}
 
 	return (
