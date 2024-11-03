@@ -24,6 +24,7 @@ export type CreateVideoInput = {
 export type CreateVideoResponse = {
   __typename?: 'CreateVideoResponse';
   downloadUrl: Scalars['String']['output'];
+  trackingId: Scalars['ID']['output'];
 };
 
 export type Mutation = {
@@ -39,11 +40,17 @@ export type MutationCreateVideoArgs = {
 export type Query = {
   __typename?: 'Query';
   uploadDetails: UploadDetails;
+  videoStatus: VideoStatus;
 };
 
 
 export type QueryUploadDetailsArgs = {
   input: UploadDetailsInput;
+};
+
+
+export type QueryVideoStatusArgs = {
+  trackingId: Scalars['ID']['input'];
 };
 
 export type UploadDetails = {
@@ -58,6 +65,12 @@ export type UploadDetailsInput = {
   audioExtension: Scalars['String']['input'];
   imageExtension: Scalars['String']['input'];
 };
+
+export enum VideoStatus {
+  Complete = 'COMPLETE',
+  Failed = 'FAILED',
+  InProgress = 'IN_PROGRESS'
+}
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
 export type ResolversObject<TObject> = WithIndex<TObject>;
@@ -134,11 +147,13 @@ export type ResolversTypes = ResolversObject<{
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   CreateVideoInput: CreateVideoInput;
   CreateVideoResponse: ResolverTypeWrapper<CreateVideoResponse>;
+  ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   UploadDetails: ResolverTypeWrapper<UploadDetails>;
   UploadDetailsInput: UploadDetailsInput;
+  VideoStatus: VideoStatus;
 }>;
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -146,6 +161,7 @@ export type ResolversParentTypes = ResolversObject<{
   Boolean: Scalars['Boolean']['output'];
   CreateVideoInput: CreateVideoInput;
   CreateVideoResponse: CreateVideoResponse;
+  ID: Scalars['ID']['output'];
   Mutation: {};
   Query: {};
   String: Scalars['String']['output'];
@@ -155,6 +171,7 @@ export type ResolversParentTypes = ResolversObject<{
 
 export type CreateVideoResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['CreateVideoResponse'] = ResolversParentTypes['CreateVideoResponse']> = ResolversObject<{
   downloadUrl?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  trackingId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -164,6 +181,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   uploadDetails?: Resolver<ResolversTypes['UploadDetails'], ParentType, ContextType, RequireFields<QueryUploadDetailsArgs, 'input'>>;
+  videoStatus?: Resolver<ResolversTypes['VideoStatus'], ParentType, ContextType, RequireFields<QueryVideoStatusArgs, 'trackingId'>>;
 }>;
 
 export type UploadDetailsResolvers<ContextType = any, ParentType extends ResolversParentTypes['UploadDetails'] = ResolversParentTypes['UploadDetails']> = ResolversObject<{

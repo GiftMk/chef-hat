@@ -10,6 +10,7 @@ import type { ServerContext } from '../serverContext'
 import { randomUUID } from 'node:crypto'
 import { GetObjectCommand } from '@aws-sdk/client-s3'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
+import { GraphQLError } from 'graphql'
 
 export const createVideoResolver = async (
 	_: unknown,
@@ -41,7 +42,11 @@ export const createVideoResolver = async (
 		}),
 	}
 
-	await client.send(new StartExecutionCommand(input))
+	const { executionArn } = await client.send(new StartExecutionCommand(input))
+
+	if (!executionArn) {
+		throw new GraphQLError('Failed to start job to create video')
+	}
 
 	const getObjectCommand = new GetObjectCommand({
 		Bucket: contextValue.downloadBucket,
@@ -56,5 +61,5 @@ export const createVideoResolver = async (
 		},
 	)
 
-	return { downloadUrl }
+	return { downloadUrl, trackingId: executionArn }
 }

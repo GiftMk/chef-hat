@@ -10,8 +10,15 @@ input UploadDetailsInput {
   imageExtension: String!
 }
 
+enum VideoStatus {
+  IN_PROGRESS,
+  COMPLETE,
+  FAILED
+}
+
 type Query {
   uploadDetails(input: UploadDetailsInput!): UploadDetails!
+  videoStatus(trackingId: ID!): VideoStatus!
 }
 
 input CreateVideoInput {
@@ -21,6 +28,7 @@ input CreateVideoInput {
 
 type CreateVideoResponse {
   downloadUrl: String!
+  trackingId: ID!
 }
 
 type Mutation {
