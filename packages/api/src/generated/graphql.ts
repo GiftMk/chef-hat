@@ -69,8 +69,7 @@ export type UploadDetailsInput = {
 export enum VideoStatus {
   Complete = 'COMPLETE',
   Failed = 'FAILED',
-  InProgress = 'IN_PROGRESS',
-  Unknown = 'UNKNOWN'
+  InProgress = 'IN_PROGRESS'
 }
 
 export type VideoStatusResponse = {

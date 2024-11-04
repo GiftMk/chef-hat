@@ -18,7 +18,8 @@ export const createVideoResolver = async (
 	contextValue: ServerContext,
 ): Promise<CreateVideoResponse> => {
 	const { client, createVideoArn } = contextValue.stepFunctions
-	const videoKey = `${randomUUID()}.mp4`
+	const videoName = randomUUID()
+	const videoKey = `${videoName}.mp4`
 
 	const input: StartExecutionCommandInput = {
 		stateMachineArn: createVideoArn,
@@ -36,7 +37,7 @@ export const createVideoResolver = async (
 			video: {
 				width: 1920,
 				height: 1080,
-				name: videoKey,
+				name: videoName,
 				outputBucket: contextValue.downloadBucket,
 			},
 		}),
