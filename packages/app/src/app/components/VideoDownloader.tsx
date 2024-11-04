@@ -5,11 +5,12 @@ import { useVideoState } from '@/state/videoStore'
 import Image from 'next/image'
 import femaleChef from '@/assets/female-chef.png'
 import { VideoStatus } from '@/lib/graphql/generated/graphql'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { cn } from '@/lib/utils'
+import { toast } from 'sonner'
 
 const getPlaceholderText = (status?: VideoStatus): string => {
-	if (!status || status === VideoStatus.Unknown) {
+	if (!status) {
 		return `Upload your assets and hit 'Go!' to create & download your video.`
 	}
 	switch (status) {
@@ -34,7 +35,11 @@ export const VideoDownloader = () => {
 				const response = await fetch(downloadUrl)
 				if (response.ok) {
 					const data = await response.json()
+					console.log(response)
 					console.log(data)
+					toast.success('Successfully downloaded video')
+				} else {
+					toast.error('Failed to download video')
 				}
 			}
 
@@ -43,18 +48,54 @@ export const VideoDownloader = () => {
 	}, [status, downloadUrl])
 
 	return (
-		<div className="shrink-0 p-8 relative rounded-md overflow-hidden aspect-video w-full flex flex-col gap-4 items-center justify-center">
-			<div className="absolute h-full w-full bg-zinc-100 animate-pulse " />
-			<p className="relative font-medium opacity-75">
-				{getPlaceholderText(status)}
-			</p>
-			<Image
-				className={cn('relative w-16 h-16', {
-					'animate-bounce': status === VideoStatus.InProgress,
-				})}
-				src={femaleChef}
-				alt="female chef icon"
-			/>
+		<div className="shrink-0 relative rounded-md overflow-hidden aspect-video w-full flex items-end">
+			{status === VideoStatus.InProgress && <LoadingOverlay />}
+			{!status && <WaitingOverlay />}
+			<div className="relative w-full h-full flex flex-col gap-4 items-center justify-center">
+				<p className="font-medium opacity-75">{getPlaceholderText(status)}</p>
+				<Image
+					className={cn('relative w-16 h-16', {
+						'animate-bounce': status === VideoStatus.InProgress,
+					})}
+					src={femaleChef}
+					alt="female chef icon"
+				/>
+			</div>
 		</div>
+	)
+}
+
+const WaitingOverlay = () => {
+	return <div className="absolute w-full h-full animate-pulse bg-zinc-100" />
+}
+
+const LoadingOverlay = () => {
+	const [progress, setProgress] = useState(0)
+
+	useEffect(() => {
+		const intervalHandler = setInterval(
+			() => setProgress((curr) => curr + 25),
+			1000,
+		)
+		const timeoutHandler = setTimeout(
+			() => clearInterval(intervalHandler),
+			5 * 60 * 1000,
+		)
+		return () => {
+			clearInterval(intervalHandler)
+			clearTimeout(timeoutHandler)
+		}
+	}, [])
+
+	return (
+		<div
+			className={cn('bg-blue-100 transition-height duration-500', {
+				'h-0': progress === 0,
+				'h-1/4': progress === 25,
+				'h-1/2': progress === 50,
+				'h-3/4': progress === 75,
+				'h-full': progress === 100,
+			})}
+		/>
 	)
 }

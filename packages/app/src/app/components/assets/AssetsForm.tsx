@@ -66,6 +66,7 @@ export const AssetsForm = ({ className, onSubmit }: AssetsFormProps) => {
 		setAudioFilename(audioFilename)
 		setImageFilename(imageFilename)
 		toast.success('Successfully uploaded assets.')
+		onSubmit?.()
 	}
 
 	return (
@@ -100,13 +101,8 @@ export const AssetsForm = ({ className, onSubmit }: AssetsFormProps) => {
 						</FormItem>
 					)}
 				/>
-				<Button
-					variant={'cta'}
-					className={cn('rounded-full w-20 h-20 text-xl font-semibold')}
-					disabled={isLoading}
-					type="submit"
-				>
-					{isLoading ? '...' : 'Go!'}
+				<Button disabled={isLoading} type="submit">
+					{isLoading ? 'Uploading...' : 'Upload'}
 				</Button>
 			</form>
 		</Form>

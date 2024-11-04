@@ -42,7 +42,7 @@ export const useVideoStatus = (
 		return () => clearTimeout(handler)
 	}, [trackingId, startPolling, stopPolling, isPolling])
 
-	const status = data?.videoStatus.status
+	const status = data?.videoStatus.status ?? undefined
 	const isFinished = status === VideoStatus.Complete || VideoStatus.Failed
 
 	useEffect(() => {
