@@ -13,8 +13,7 @@ input UploadDetailsInput {
 enum VideoStatus {
   IN_PROGRESS,
   COMPLETE,
-  FAILED,
-  UNKNOWN
+  FAILED
 }
 
 type VideoStatusResponse {
