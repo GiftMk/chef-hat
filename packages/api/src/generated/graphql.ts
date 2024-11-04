@@ -75,7 +75,7 @@ export enum VideoStatus {
 
 export type VideoStatusResponse = {
   __typename?: 'VideoStatusResponse';
-  status: VideoStatus;
+  status?: Maybe<VideoStatus>;
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -201,7 +201,7 @@ export type UploadDetailsResolvers<ContextType = any, ParentType extends Resolve
 }>;
 
 export type VideoStatusResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['VideoStatusResponse'] = ResolversParentTypes['VideoStatusResponse']> = ResolversObject<{
-  status?: Resolver<ResolversTypes['VideoStatus'], ParentType, ContextType>;
+  status?: Resolver<Maybe<ResolversTypes['VideoStatus']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 

@@ -28,6 +28,6 @@ export const videoStatusResolver = async (
 		case 'SUCCEEDED':
 			return { status: VideoStatus.Complete }
 		default:
-			return { status: VideoStatus.Failed }
+			return { status: undefined }
 	}
 }
