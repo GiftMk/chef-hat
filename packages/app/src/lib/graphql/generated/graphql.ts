@@ -29,7 +29,8 @@ export type UploadDetailsInput = {
 export enum VideoStatus {
   Complete = 'COMPLETE',
   Failed = 'FAILED',
-  InProgress = 'IN_PROGRESS'
+  InProgress = 'IN_PROGRESS',
+  Unknown = 'UNKNOWN'
 }
 
 export type CreateVideoMutationVariables = Exact<{
@@ -46,6 +47,14 @@ export type UploadDetailsQueryVariables = Exact<{
 
 export type UploadDetailsQuery = { __typename?: 'Query', uploadDetails: { __typename?: 'UploadDetails', audioFilename: string, audioUploadUrl: string, imageFilename: string, imageUploadUrl: string } };
 
+export type VideoStatusQueryVariables = Exact<{
+  trackingId: Scalars['ID']['input'];
+}>;
+
+
+export type VideoStatusQuery = { __typename?: 'Query', videoStatus: { __typename?: 'VideoStatusResponse', status: VideoStatus } };
+
 
 export const CreateVideoDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateVideo"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateVideoInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createVideo"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"downloadUrl"}},{"kind":"Field","name":{"kind":"Name","value":"trackingId"}}]}}]}}]} as unknown as DocumentNode<CreateVideoMutation, CreateVideoMutationVariables>;
 export const UploadDetailsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"UploadDetails"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UploadDetailsInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"uploadDetails"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"audioFilename"}},{"kind":"Field","name":{"kind":"Name","value":"audioUploadUrl"}},{"kind":"Field","name":{"kind":"Name","value":"imageFilename"}},{"kind":"Field","name":{"kind":"Name","value":"imageUploadUrl"}}]}}]}}]} as unknown as DocumentNode<UploadDetailsQuery, UploadDetailsQueryVariables>;
+export const VideoStatusDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"VideoStatus"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"trackingId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"videoStatus"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"trackingId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"trackingId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"status"}}]}}]}}]} as unknown as DocumentNode<VideoStatusQuery, VideoStatusQueryVariables>;

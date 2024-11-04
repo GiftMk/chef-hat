@@ -5,7 +5,7 @@ import type { UploadDetailsQuery } from '../graphql/generated/graphql'
 import { uploadDetailsQuery } from '../graphql/queries/uploadDetailsQuery'
 import path from 'node:path'
 import type { ApolloClient, NormalizedCacheObject } from '@apollo/client'
-import type { ServerActionResult } from './ServerActionResult'
+import { failure, type Result, success } from '@chef-hat/ts-result'
 
 type UploadAssetsProps = {
 	audio: FileList
@@ -41,15 +41,15 @@ const getUploadDetails = async (
 	return data
 }
 
-type UploadAssetsResult = ServerActionResult<{
+type UploadAssetsResponse = {
 	audioFilename: string
 	imageFilename: string
-}>
+}
 
 export const uploadAssets = async ({
 	audio,
 	image,
-}: UploadAssetsProps): Promise<UploadAssetsResult> => {
+}: UploadAssetsProps): Promise<Result<UploadAssetsResponse>> => {
 	const audioFile = audio[0]
 	const imageFile = image[0]
 
@@ -64,7 +64,7 @@ export const uploadAssets = async ({
 	const uploadFailed = results.some((r) => !r.ok)
 
 	if (uploadFailed) {
-		return { success: false, message: 'Failed to upload assets.' }
+		return failure('Failed to upload assets.')
 	}
-	return { success: true, audioFilename, imageFilename }
+	return success({ audioFilename, imageFilename })
 }

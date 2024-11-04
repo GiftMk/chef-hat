@@ -40,7 +40,7 @@ export type MutationCreateVideoArgs = {
 export type Query = {
   __typename?: 'Query';
   uploadDetails: UploadDetails;
-  videoStatus: VideoStatus;
+  videoStatus: VideoStatusResponse;
 };
 
 
@@ -69,8 +69,14 @@ export type UploadDetailsInput = {
 export enum VideoStatus {
   Complete = 'COMPLETE',
   Failed = 'FAILED',
-  InProgress = 'IN_PROGRESS'
+  InProgress = 'IN_PROGRESS',
+  Unknown = 'UNKNOWN'
 }
+
+export type VideoStatusResponse = {
+  __typename?: 'VideoStatusResponse';
+  status: VideoStatus;
+};
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
 export type ResolversObject<TObject> = WithIndex<TObject>;
@@ -154,6 +160,7 @@ export type ResolversTypes = ResolversObject<{
   UploadDetails: ResolverTypeWrapper<UploadDetails>;
   UploadDetailsInput: UploadDetailsInput;
   VideoStatus: VideoStatus;
+  VideoStatusResponse: ResolverTypeWrapper<VideoStatusResponse>;
 }>;
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -167,6 +174,7 @@ export type ResolversParentTypes = ResolversObject<{
   String: Scalars['String']['output'];
   UploadDetails: UploadDetails;
   UploadDetailsInput: UploadDetailsInput;
+  VideoStatusResponse: VideoStatusResponse;
 }>;
 
 export type CreateVideoResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['CreateVideoResponse'] = ResolversParentTypes['CreateVideoResponse']> = ResolversObject<{
@@ -181,7 +189,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   uploadDetails?: Resolver<ResolversTypes['UploadDetails'], ParentType, ContextType, RequireFields<QueryUploadDetailsArgs, 'input'>>;
-  videoStatus?: Resolver<ResolversTypes['VideoStatus'], ParentType, ContextType, RequireFields<QueryVideoStatusArgs, 'trackingId'>>;
+  videoStatus?: Resolver<ResolversTypes['VideoStatusResponse'], ParentType, ContextType, RequireFields<QueryVideoStatusArgs, 'trackingId'>>;
 }>;
 
 export type UploadDetailsResolvers<ContextType = any, ParentType extends ResolversParentTypes['UploadDetails'] = ResolversParentTypes['UploadDetails']> = ResolversObject<{
@@ -192,10 +200,16 @@ export type UploadDetailsResolvers<ContextType = any, ParentType extends Resolve
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export type VideoStatusResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['VideoStatusResponse'] = ResolversParentTypes['VideoStatusResponse']> = ResolversObject<{
+  status?: Resolver<ResolversTypes['VideoStatus'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
 export type Resolvers<ContextType = any> = ResolversObject<{
   CreateVideoResponse?: CreateVideoResponseResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   UploadDetails?: UploadDetailsResolvers<ContextType>;
+  VideoStatusResponse?: VideoStatusResponseResolvers<ContextType>;
 }>;
 

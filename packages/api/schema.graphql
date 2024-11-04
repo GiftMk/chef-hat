@@ -13,12 +13,17 @@ input UploadDetailsInput {
 enum VideoStatus {
   IN_PROGRESS,
   COMPLETE,
-  FAILED
+  FAILED,
+  UNKNOWN
+}
+
+type VideoStatusResponse {
+  status: VideoStatus!
 }
 
 type Query {
   uploadDetails(input: UploadDetailsInput!): UploadDetails!
-  videoStatus(trackingId: ID!): VideoStatus!
+  videoStatus(trackingId: ID!): VideoStatusResponse!
 }
 
 input CreateVideoInput {

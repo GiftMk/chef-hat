@@ -16,6 +16,7 @@ import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-
 const documents = {
     "\n  mutation CreateVideo($input: CreateVideoInput!) {\n    createVideo(input: $input) {\n      downloadUrl,\n      trackingId\n    }\n  }\n": types.CreateVideoDocument,
     "\n  query UploadDetails($input: UploadDetailsInput!) {\n    uploadDetails(input: $input) {\n        audioFilename,\n        audioUploadUrl,\n        imageFilename,\n        imageUploadUrl\n    }\n  }\n": types.UploadDetailsDocument,
+    "\n  query VideoStatus($trackingId: ID!) {\n    videoStatus(trackingId: $trackingId) {\n      status\n    }\n  }\n": types.VideoStatusDocument,
 };
 
 /**
@@ -40,6 +41,10 @@ export function graphql(source: "\n  mutation CreateVideo($input: CreateVideoInp
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  query UploadDetails($input: UploadDetailsInput!) {\n    uploadDetails(input: $input) {\n        audioFilename,\n        audioUploadUrl,\n        imageFilename,\n        imageUploadUrl\n    }\n  }\n"): (typeof documents)["\n  query UploadDetails($input: UploadDetailsInput!) {\n    uploadDetails(input: $input) {\n        audioFilename,\n        audioUploadUrl,\n        imageFilename,\n        imageUploadUrl\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query VideoStatus($trackingId: ID!) {\n    videoStatus(trackingId: $trackingId) {\n      status\n    }\n  }\n"): (typeof documents)["\n  query VideoStatus($trackingId: ID!) {\n    videoStatus(trackingId: $trackingId) {\n      status\n    }\n  }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

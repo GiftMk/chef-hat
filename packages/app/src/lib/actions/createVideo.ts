@@ -1,12 +1,14 @@
+'use server'
+
 import { getClient } from '../graphql/client'
 import type { CreateVideoMutation } from '../graphql/generated/graphql'
 import { createVideoMutation } from '../graphql/mutations/createVideoMutation'
-import type { ServerActionResult } from './ServerActionResult'
+import { failure, success, type Result } from '@chef-hat/ts-result'
 
-type CreateVideoResult = ServerActionResult<{
+type CreateVideoResponse = {
 	trackingId: string
 	downloadUrl: string
-}>
+}
 
 type CreateVideoProps = {
 	audioFilename: string
@@ -16,7 +18,7 @@ type CreateVideoProps = {
 export const createVideo = async ({
 	audioFilename,
 	imageFilename,
-}: CreateVideoProps): Promise<CreateVideoResult> => {
+}: CreateVideoProps): Promise<Result<CreateVideoResponse>> => {
 	const client = getClient()
 	const { data } = await client.mutate<CreateVideoMutation>({
 		mutation: createVideoMutation,
@@ -25,12 +27,11 @@ export const createVideo = async ({
 	const response = data?.createVideo
 
 	if (!response) {
-		return { success: false, message: 'Failed to initiate video creation' }
+		return failure('Failed to initiate video creation')
 	}
 
-	return {
-		success: true,
+	return success({
 		trackingId: response.trackingId,
 		downloadUrl: response.downloadUrl,
-	}
+	})
 }
