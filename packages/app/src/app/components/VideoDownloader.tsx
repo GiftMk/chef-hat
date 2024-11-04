@@ -10,7 +10,7 @@ import { cn } from '@/lib/utils'
 
 const getPlaceholderText = (status?: VideoStatus): string => {
 	if (!status || status === VideoStatus.Unknown) {
-		return `Upload your assets and click 'Go!' to create & download your video.`
+		return `Upload your assets and hit 'Go!' to create & download your video.`
 	}
 	switch (status) {
 		case VideoStatus.Complete:

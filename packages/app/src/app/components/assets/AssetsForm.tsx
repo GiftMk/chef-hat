@@ -19,7 +19,6 @@ import { ImagePreview } from './ImagePreview'
 import { AudioPreview } from './AudioPreview'
 import { toast } from 'sonner'
 import { getValueOrThrow, isFailure } from '@chef-hat/ts-result'
-import { createVideo } from '@/lib/actions/createVideo'
 import { useVideoState } from '@/state/videoStore'
 
 type FormSchema = z.infer<typeof assetsFormSchema>
@@ -45,8 +44,12 @@ export const AssetsForm = ({ className, onSubmit }: AssetsFormProps) => {
 	const isLoading = form.formState.isLoading || form.formState.isSubmitting
 	const audioRef = form.register('audio')
 	const imageRef = form.register('image')
-	const setTrackingId = useVideoState((state) => state.setTrackingId)
-	const setDownloadUrl = useVideoState((state) => state.setDownloadUrl)
+	const setAudioFilename = useVideoState(
+		(state) => state.assets.setAudioFilename,
+	)
+	const setImageFilename = useVideoState(
+		(state) => state.assets.setImageFilename,
+	)
 
 	const handleSubmit = async (values: FormSchema) => {
 		const uploadResult = await uploadAssets({
@@ -59,19 +62,10 @@ export const AssetsForm = ({ className, onSubmit }: AssetsFormProps) => {
 			return
 		}
 
-		const uploadResponse = getValueOrThrow(uploadResult)
-		const createVideoResult = await createVideo(uploadResponse)
-
-		if (isFailure(createVideoResult)) {
-			toast.error(createVideoResult.error)
-			onSubmit?.()
-			return
-		}
-		const { trackingId, downloadUrl } = getValueOrThrow(createVideoResult)
-		setTrackingId(trackingId)
-		setDownloadUrl(downloadUrl)
-		toast.success('Video creation has started!')
-		onSubmit?.()
+		const { audioFilename, imageFilename } = getValueOrThrow(uploadResult)
+		setAudioFilename(audioFilename)
+		setImageFilename(imageFilename)
+		toast.success('Successfully uploaded assets.')
 	}
 
 	return (
