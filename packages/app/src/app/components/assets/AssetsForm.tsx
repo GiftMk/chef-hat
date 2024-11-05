@@ -19,7 +19,8 @@ import { ImagePreview } from './ImagePreview'
 import { AudioPreview } from './AudioPreview'
 import { toast } from 'sonner'
 import { getValueOrThrow, isFailure } from '@chef-hat/ts-result'
-import { useVideoState } from '@/state/videoStore'
+import { useAssetsStore } from '@/hooks/useAssetsStore'
+import { useEffect } from 'react'
 
 type FormSchema = z.infer<typeof assetsFormSchema>
 
@@ -37,19 +38,39 @@ const getFileUrl = (object: unknown): string | null => {
 }
 
 export const AssetsForm = ({ className, onSubmit }: AssetsFormProps) => {
+	const {
+		audio,
+		setAudio,
+		setAudioFilename,
+		image,
+		setImage,
+		setImageFilename,
+	} = useAssetsStore((state) => ({
+		audio: state.audio,
+		setAudio: state.setAudio,
+		image: state.image,
+		setImage: state.setImage,
+		setAudioFilename: state.setAudioFilename,
+		setImageFilename: state.setImageFilename,
+	}))
 	const form = useForm<FormSchema>({
 		resolver: zodResolver(assetsFormSchema),
 		mode: 'onSubmit',
+		defaultValues: {
+			audio,
+			image,
+		},
 	})
 	const isLoading = form.formState.isLoading || form.formState.isSubmitting
 	const audioRef = form.register('audio')
 	const imageRef = form.register('image')
-	const setAudioFilename = useVideoState(
-		(state) => state.assets.setAudioFilename,
-	)
-	const setImageFilename = useVideoState(
-		(state) => state.assets.setImageFilename,
-	)
+	const audioInput = form.watch('audio')
+	const imageInput = form.watch('image')
+
+	useEffect(() => {
+		setAudio(audioInput)
+		setImage(imageInput)
+	}, [audioInput, imageInput, setAudio, setImage])
 
 	const handleSubmit = async (values: FormSchema) => {
 		const uploadResult = await uploadAssets({
@@ -84,7 +105,7 @@ export const AssetsForm = ({ className, onSubmit }: AssetsFormProps) => {
 							<FormControl>
 								<Input type="file" {...audioRef} />
 							</FormControl>
-							<AudioPreview audioUrl={getFileUrl(form.getValues('audio'))} />
+							<AudioPreview audioUrl={getFileUrl(audio)} />
 						</FormItem>
 					)}
 				/>
@@ -97,7 +118,7 @@ export const AssetsForm = ({ className, onSubmit }: AssetsFormProps) => {
 							<FormControl>
 								<Input type="file" {...imageRef} />
 							</FormControl>
-							<ImagePreview imageUrl={getFileUrl(form.getValues('image'))} />
+							<ImagePreview imageUrl={getFileUrl(image)} />
 						</FormItem>
 					)}
 				/>

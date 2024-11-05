@@ -1,7 +1,7 @@
 'use client'
 
 import { useVideoStatus } from '@/hooks/useVideoStatus'
-import { useVideoState } from '@/state/videoStore'
+import { useVideoStore } from '@/hooks/useVideoStore'
 import Image from 'next/image'
 import femaleChef from '@/assets/female-chef.png'
 import { VideoStatus } from '@/lib/graphql/generated/graphql'
@@ -24,10 +24,8 @@ const getPlaceholderText = (status?: VideoStatus): string => {
 }
 
 export const VideoDownloader = () => {
-	const trackingId = useVideoState((state) => state.trackingId)
-	const setTrackingId = useVideoState((state) => state.setTrackingId)
-	const downloadUrl = useVideoState((state) => state.downloadUrl)
-	const { status } = useVideoStatus(trackingId, setTrackingId)
+	const downloadUrl = useVideoStore((state) => state.downloadUrl)
+	const { status } = useVideoStatus()
 
 	useEffect(() => {
 		if (downloadUrl && status === VideoStatus.Complete) {

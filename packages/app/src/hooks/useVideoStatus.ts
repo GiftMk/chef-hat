@@ -6,20 +6,22 @@ import {
 	type VideoStatusQueryVariables,
 } from '@/lib/graphql/generated/graphql'
 import { videoStatusQuery } from '@/lib/graphql/queries/videoStatusQuery'
+import { useVideoStore } from '@/hooks/useVideoStore'
 import { type ApolloError, useQuery } from '@apollo/client'
 import { useEffect, useState } from 'react'
 
 const POLL_INTERVAL_MS = 15 * 1000
 const POLLING_DURATION_MS = 10 * 60 * 1000
 
-export const useVideoStatus = (
-	trackingId: string | undefined,
-	setTrackingId: (trackingId?: string) => void,
-): {
+export const useVideoStatus = (): {
 	status?: VideoStatus
 	loading: boolean
 	error?: ApolloError
 } => {
+	const { trackingId, setTrackingId } = useVideoStore((state) => ({
+		trackingId: state.trackingId,
+		setTrackingId: state.setTrackingId,
+	}))
 	const [isPolling, setIsPolling] = useState(false)
 	const { data, loading, error, startPolling, stopPolling } = useQuery<
 		VideoStatusQuery,
@@ -28,6 +30,8 @@ export const useVideoStatus = (
 		variables: { trackingId: trackingId ?? '' },
 		skip: trackingId === null,
 	})
+	const status = data?.videoStatus.status ?? undefined
+	const isFinished = status === VideoStatus.Complete || VideoStatus.Failed
 
 	useEffect(() => {
 		if (trackingId && !isPolling) {
@@ -41,9 +45,6 @@ export const useVideoStatus = (
 
 		return () => clearTimeout(handler)
 	}, [trackingId, startPolling, stopPolling, isPolling])
-
-	const status = data?.videoStatus.status ?? undefined
-	const isFinished = status === VideoStatus.Complete || VideoStatus.Failed
 
 	useEffect(() => {
 		if (isFinished) {
