@@ -31,13 +31,15 @@ export const useVideoStatus = (): {
 		skip: trackingId === null,
 	})
 	const status = data?.videoStatus.status ?? undefined
-	const isFinished = status === VideoStatus.Complete || VideoStatus.Failed
+	const isFinished =
+		status === VideoStatus.Complete || status === VideoStatus.Failed
 
 	useEffect(() => {
 		if (trackingId && !isPolling) {
 			startPolling(POLL_INTERVAL_MS)
 			setIsPolling(true)
 		}
+
 		const handler = setTimeout(() => {
 			stopPolling()
 			setIsPolling(false)
@@ -47,10 +49,11 @@ export const useVideoStatus = (): {
 	}, [trackingId, startPolling, stopPolling, isPolling])
 
 	useEffect(() => {
-		if (isFinished) {
+		if (isFinished && isPolling) {
+			stopPolling()
 			setTrackingId(undefined)
 		}
-	}, [isFinished, setTrackingId])
+	}, [isFinished, setTrackingId, stopPolling, isPolling])
 
 	return { status, loading, error }
 }

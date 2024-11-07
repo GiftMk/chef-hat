@@ -6,8 +6,9 @@ import Image from 'next/image'
 import femaleChef from '@/assets/female-chef.png'
 import { VideoStatus } from '@/lib/graphql/generated/graphql'
 import { useEffect, useState } from 'react'
-import { cn } from '@/lib/utils'
+import { cn, getObjectUrl } from '@/lib/utils'
 import { toast } from 'sonner'
+import { DownloadVideoButton } from './DownloadVideoButton'
 
 const getPlaceholderText = (status?: VideoStatus): string => {
 	if (!status) {
@@ -24,7 +25,11 @@ const getPlaceholderText = (status?: VideoStatus): string => {
 }
 
 export const VideoDownloader = () => {
-	const downloadUrl = useVideoStore((state) => state.downloadUrl)
+	const { downloadUrl, videoUrl, setVideoUrl } = useVideoStore((state) => ({
+		downloadUrl: state.downloadUrl,
+		videoUrl: state.videoUrl,
+		setVideoUrl: state.setVideoUrl,
+	}))
 	const { status } = useVideoStatus()
 
 	useEffect(() => {
@@ -32,18 +37,32 @@ export const VideoDownloader = () => {
 			const fetchData = async () => {
 				const response = await fetch(downloadUrl)
 				if (response.ok) {
-					const data = await response.json()
-					console.log(response)
-					console.log(data)
-					toast.success('Successfully downloaded video')
-				} else {
-					toast.error('Failed to download video')
+					const blob = await response.blob()
+					const videoUrl = getObjectUrl(blob)
+					if (videoUrl) {
+						setVideoUrl(videoUrl)
+						toast.success('Successfully downloaded video')
+						return
+					}
 				}
+				toast.error('Failed to download video')
 			}
 
 			fetchData()
 		}
-	}, [status, downloadUrl])
+	}, [status, downloadUrl, setVideoUrl])
+
+	if (videoUrl) {
+		return (
+			<div className="flex w-full items-center flex-col gap-4">
+				{/* biome-ignore lint/a11y/useMediaCaption: Video is user-generated */}
+				<video controls className="rounded-md w-full">
+					<source src={videoUrl} type="video/mp4" />
+				</video>
+				<DownloadVideoButton />
+			</div>
+		)
+	}
 
 	return (
 		<div className="shrink-0 relative rounded-md overflow-hidden aspect-video w-full flex items-end">
@@ -75,25 +94,23 @@ const LoadingOverlay = () => {
 			() => setProgress((curr) => curr + 25),
 			1000,
 		)
-		const timeoutHandler = setTimeout(
-			() => clearInterval(intervalHandler),
-			5 * 60 * 1000,
-		)
 		return () => {
 			clearInterval(intervalHandler)
-			clearTimeout(timeoutHandler)
 		}
 	}, [])
 
 	return (
 		<div
-			className={cn('bg-blue-100 transition-height duration-500', {
-				'h-0': progress === 0,
-				'h-1/4': progress === 25,
-				'h-1/2': progress === 50,
-				'h-3/4': progress === 75,
-				'h-full': progress === 100,
-			})}
+			className={cn(
+				'absolute w-full bg-blue-100 transition-height duration-500',
+				{
+					'h-0': progress === 0,
+					'h-1/4': progress === 25,
+					'h-1/2': progress === 50,
+					'h-3/4': progress === 75,
+					'h-full': progress === 100,
+				},
+			)}
 		/>
 	)
 }

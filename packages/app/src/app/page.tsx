@@ -1,7 +1,7 @@
 import { AssetsLibrary } from './components/assets/AssetsLibrary'
-import { CreateVideoButton } from './components/CreateVideoButton'
+import { CreateVideoButton } from './components/video/CreateVideoButton'
 import { Logo } from './components/Logo'
-import { VideoDownloader } from './components/VideoDownloader'
+import { VideoDownloader } from './components/video/VideoDownloader'
 
 export default function Home() {
 	return (

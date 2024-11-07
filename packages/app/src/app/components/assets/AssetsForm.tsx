@@ -13,7 +13,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { useForm } from 'react-hook-form'
 import { Button } from '@/components/ui/button'
-import { cn } from '@/lib/utils'
+import { cn, getObjectUrl } from '@/lib/utils'
 import { uploadAssets } from '@/lib/actions/uploadAssets'
 import { ImagePreview } from './ImagePreview'
 import { AudioPreview } from './AudioPreview'
@@ -27,14 +27,6 @@ type FormSchema = z.infer<typeof assetsFormSchema>
 interface AssetsFormProps {
 	className?: string
 	onSubmit?: () => void
-}
-
-const getFileUrl = (object: unknown): string | null => {
-	if (typeof window !== 'undefined' && object instanceof FileList) {
-		const file = object[0]
-		if (file) return URL.createObjectURL(file)
-	}
-	return null
 }
 
 export const AssetsForm = ({ className, onSubmit }: AssetsFormProps) => {
@@ -105,7 +97,7 @@ export const AssetsForm = ({ className, onSubmit }: AssetsFormProps) => {
 							<FormControl>
 								<Input type="file" {...audioRef} />
 							</FormControl>
-							<AudioPreview audioUrl={getFileUrl(audio)} />
+							<AudioPreview audioUrl={getObjectUrl(audio)} />
 						</FormItem>
 					)}
 				/>
@@ -118,7 +110,7 @@ export const AssetsForm = ({ className, onSubmit }: AssetsFormProps) => {
 							<FormControl>
 								<Input type="file" {...imageRef} />
 							</FormControl>
-							<ImagePreview imageUrl={getFileUrl(image)} />
+							<ImagePreview imageUrl={getObjectUrl(image)} />
 						</FormItem>
 					)}
 				/>

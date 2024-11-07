@@ -18,7 +18,7 @@ export const CreateVideoButton = () => {
 	}))
 	const { audioFilename, imageFilename } = useAssetsStore((state) => ({
 		audioFilename: state.audioFilename,
-		imageFilename: state.audioFilename,
+		imageFilename: state.imageFilename,
 	}))
 	const { status } = useVideoStatus()
 
