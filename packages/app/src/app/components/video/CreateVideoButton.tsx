@@ -12,10 +12,13 @@ import { toast } from 'sonner'
 import { useAssetsStore } from '@/hooks/useAssetsStore'
 
 export const CreateVideoButton = () => {
-	const { setTrackingId, setDownloadUrl } = useVideoStore((state) => ({
-		setTrackingId: state.setTrackingId,
-		setDownloadUrl: state.setDownloadUrl,
-	}))
+	const { setTrackingId, setDownloadUrl, videoUrl, setVideoUrl } =
+		useVideoStore((state) => ({
+			setTrackingId: state.setTrackingId,
+			setDownloadUrl: state.setDownloadUrl,
+			videoUrl: state.videoUrl,
+			setVideoUrl: state.setVideoUrl,
+		}))
 	const { audioFilename, imageFilename } = useAssetsStore((state) => ({
 		audioFilename: state.audioFilename,
 		imageFilename: state.imageFilename,
@@ -32,6 +35,10 @@ export const CreateVideoButton = () => {
 	const handleClick = async () => {
 		if (disabled) {
 			return
+		}
+
+		if (videoUrl) {
+			setVideoUrl(undefined)
 		}
 
 		setIsLoading(true)
