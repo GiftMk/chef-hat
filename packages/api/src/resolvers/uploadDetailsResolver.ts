@@ -28,14 +28,14 @@ export const uploadDetailsResolver = async (
 ): Promise<UploadDetails> => {
 	const audioFilename = `${randomUUID()}.${args.input.audioExtension}`
 	const audioUploadUrl = await getUploadUrl(
-		contextValue.s3Client,
-		contextValue.uploadBucket,
+		contextValue.s3.client,
+		contextValue.s3.uploadBucket,
 		audioFilename,
 	)
 	const imageFilename = `${randomUUID()}.${args.input.imageExtension}`
 	const imageUploadUrl = await getUploadUrl(
-		contextValue.s3Client,
-		contextValue.uploadBucket,
+		contextValue.s3.client,
+		contextValue.s3.uploadBucket,
 		imageFilename,
 	)
 

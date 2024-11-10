@@ -25,20 +25,20 @@ export const createVideoResolver = async (
 		stateMachineArn: createVideoArn,
 		input: JSON.stringify({
 			image: {
-				inputBucket: contextValue.uploadBucket,
+				inputBucket: contextValue.s3.uploadBucket,
 				inputKey: args.input.imageFilename,
-				outputBucket: contextValue.downloadBucket,
+				outputBucket: contextValue.s3.downloadBucket,
 			},
 			audio: {
-				inputBucket: contextValue.uploadBucket,
+				inputBucket: contextValue.s3.uploadBucket,
 				inputKey: args.input.audioFilename,
-				outputBucket: contextValue.downloadBucket,
+				outputBucket: contextValue.s3.downloadBucket,
 			},
 			video: {
 				width: 1920,
 				height: 1080,
 				name: videoName,
-				outputBucket: contextValue.downloadBucket,
+				outputBucket: contextValue.s3.downloadBucket,
 			},
 		}),
 	}
@@ -50,12 +50,12 @@ export const createVideoResolver = async (
 	}
 
 	const getObjectCommand = new GetObjectCommand({
-		Bucket: contextValue.downloadBucket,
+		Bucket: contextValue.s3.downloadBucket,
 		Key: videoKey,
 	})
 
 	const downloadUrl = await getSignedUrl(
-		contextValue.s3Client,
+		contextValue.s3.client,
 		getObjectCommand,
 		{
 			expiresIn: 60 * 15,
