@@ -10,14 +10,14 @@ input UploadDetailsInput {
   imageExtension: String!
 }
 
-enum VideoStatus {
+enum VideoCreationStatus {
   IN_PROGRESS,
   COMPLETE,
   FAILED
 }
 
 type VideoStatusResponse {
-  status: VideoStatus
+  status: VideoCreationStatus
 }
 
 type Query {

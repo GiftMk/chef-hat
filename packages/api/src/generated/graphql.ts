@@ -66,7 +66,7 @@ export type UploadDetailsInput = {
   imageExtension: Scalars['String']['input'];
 };
 
-export enum VideoStatus {
+export enum VideoCreationStatus {
   Complete = 'COMPLETE',
   Failed = 'FAILED',
   InProgress = 'IN_PROGRESS'
@@ -74,7 +74,7 @@ export enum VideoStatus {
 
 export type VideoStatusResponse = {
   __typename?: 'VideoStatusResponse';
-  status?: Maybe<VideoStatus>;
+  status?: Maybe<VideoCreationStatus>;
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -158,7 +158,7 @@ export type ResolversTypes = ResolversObject<{
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   UploadDetails: ResolverTypeWrapper<UploadDetails>;
   UploadDetailsInput: UploadDetailsInput;
-  VideoStatus: VideoStatus;
+  VideoCreationStatus: VideoCreationStatus;
   VideoStatusResponse: ResolverTypeWrapper<VideoStatusResponse>;
 }>;
 
@@ -200,7 +200,7 @@ export type UploadDetailsResolvers<ContextType = any, ParentType extends Resolve
 }>;
 
 export type VideoStatusResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['VideoStatusResponse'] = ResolversParentTypes['VideoStatusResponse']> = ResolversObject<{
-  status?: Resolver<Maybe<ResolversTypes['VideoStatus']>, ParentType, ContextType>;
+  status?: Resolver<Maybe<ResolversTypes['VideoCreationStatus']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 

@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/button'
 import { useVideoStatus } from '@/hooks/useVideoStatus'
 import { createVideo } from '@/lib/actions/createVideo'
-import { VideoStatus } from '@/lib/graphql/generated/graphql'
+import { VideoCreationStatus } from '@/lib/graphql/generated/graphql'
 import { cn } from '@/lib/utils'
 import { useVideoStore } from '@/hooks/useVideoStore'
 import { getValueOrThrow, isFailure } from '@chef-hat/ts-result'
@@ -27,7 +27,7 @@ export const CreateVideoButton = () => {
 		!audioFilename ||
 		!imageFilename ||
 		isLoading ||
-		status === VideoStatus.InProgress
+		status === VideoCreationStatus.InProgress
 
 	const handleClick = async () => {
 		if (disabled) {
@@ -48,6 +48,7 @@ export const CreateVideoButton = () => {
 		}
 
 		const { trackingId, downloadUrl } = getValueOrThrow(createVideoResult)
+		console.log(trackingId)
 		setTrackingId(trackingId)
 		setDownloadUrl(downloadUrl)
 		toast.success('Video creation has started!')

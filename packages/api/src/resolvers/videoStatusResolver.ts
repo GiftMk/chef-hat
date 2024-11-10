@@ -1,10 +1,26 @@
-import { DescribeExecutionCommand } from '@aws-sdk/client-sfn'
 import {
-	VideoStatus,
+	DescribeExecutionCommand,
+	type ExecutionStatus,
+} from '@aws-sdk/client-sfn'
+import {
+	VideoCreationStatus,
 	type QueryVideoStatusArgs,
 	type VideoStatusResponse,
 } from '../generated/graphql'
 import type { ServerContext } from '../serverContext'
+
+const getStatus = (executionStatus?: ExecutionStatus): VideoCreationStatus => {
+	switch (executionStatus) {
+		case 'ABORTED':
+		case 'FAILED':
+		case 'TIMED_OUT':
+			return VideoCreationStatus.Failed
+		case 'SUCCEEDED':
+			return VideoCreationStatus.Complete
+		default:
+			return VideoCreationStatus.InProgress
+	}
+}
 
 export const videoStatusResolver = async (
 	_: unknown,
@@ -12,22 +28,11 @@ export const videoStatusResolver = async (
 	contextValue: ServerContext,
 ): Promise<VideoStatusResponse> => {
 	const { trackingId: executionArn } = args
-	const { client } = contextValue.stepFunctions
-	const { status } = await client.send(
+	const sfnClient = contextValue.stepFunctions.client
+	const { status: executionStatus } = await sfnClient.send(
 		new DescribeExecutionCommand({ executionArn }),
 	)
+	const status = getStatus(executionStatus)
 
-	switch (status) {
-		case 'ABORTED':
-		case 'FAILED':
-		case 'TIMED_OUT':
-			return { status: VideoStatus.Failed }
-		case 'RUNNING':
-		case 'PENDING_REDRIVE':
-			return { status: VideoStatus.InProgress }
-		case 'SUCCEEDED':
-			return { status: VideoStatus.Complete }
-		default:
-			return { status: undefined }
-	}
+	return { status }
 }
